@@ -1,0 +1,148 @@
+/* 1. IMPORTAÇÃO DE FONTES */
+   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+/* 2. RESET E VARIÁVEIS GLOBAIS */
+
+/* Variáveis de Cor e Fonte */
+:root {
+    --cor-dourado: #BFA16E;
+    --cor-fundo: #FDFBF5;  
+    --cor-texto: #4F4F4F;   
+    --cor-branco: #FFFFFF;
+    
+    --fonte-titulo: 'Cormorant Garamond', serif;
+    --fonte-corpo: 'Poppins', sans-serif;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+* Scroll Suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Estilos Globais */
+body {
+    background-color: var(--cor-fundo);
+    font-family: var(--fonte-corpo);
+    color: var(--cor-texto);
+}
+
+/* =================================
+   3. ESTILOS DO CABEÇALHO (HEADER)
+   ================================= */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+
+    /*efeito para fixar no topo */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    background-color: var(--cor-branco);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+
+}
+
+.logo {
+
+    font-family: var(--fonte-titulo);
+    font-size: 2rem; 
+    color: var(--cor-texto);
+    font-weight: 700; 
+
+}
+
+.navbar a {
+    font-family: var(--fonte-corpo);
+    font-size: 1.1rem;
+    color: var(--cor-texto);
+    margin-left: 2rem;
+    transition: color 0.3s ease;
+}
+
+/* enfeitin de passar o mause */
+
+.navbar a:hover {
+    color: var(--cor-dourado);
+}
+
+.menu-icon {
+    display: none;
+}
+
+/* =================================
+   4. SEÇÃO PRINCIPAL (HERO)
+   ================================= */
+
+.hero-section {
+    /* layout */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 8%;
+    
+    /*imgaem de fundo*/
+    /* Trocar para a imagem real da mae*/
+    background-image: url('../images/salão.jpg'); 
+
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+    background-color: #333;  /* Cor de fundo caso a imagem falhe */
+
+    background-size: cover; /* Faz a imagem cobrir toda a área */
+    background-position: center center; /* Centraliza a imagem */
+    text-align: center;
+
+    .hero-content h1 {
+        font-family: var(--fonte-titulo);
+        font-size: 4.5rem; /* Tamanho grande para o título */
+        color: var(--cor-branco);
+        font-weight: 700;
+        line-height: 1.2; /* Espaçamento entre as linhas do título */
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Sombra no texto para legibilidade */
+    }
+/* =================================
+   5. ESTILOS DE COMPONENTES GERAIS (BOTÕES)
+   ================================= */
+
+   .btn {
+    display: inline-block;
+    padding: 14px 35px;
+    margin-top: 25px;
+
+    background-color: var(--cor-dourado);
+    color: var(--cor-branco);
+
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    border: 2px solid transparent;
+    border-radius: 5px;
+
+    transition: all 0.3s ease ;
+   }
+
+.btn:hover {
+    background-color: transparent;
+    color: var(--cor-dourado);
+    border: 2px solid var(--cor-dourado);
+    transform: scale(1.05);
+}
+
+}
