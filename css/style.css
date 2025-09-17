@@ -17,13 +17,13 @@
 /* Reset */
 * {
     margin: 0;
-    padding: 0;
+    /*padding: 0;*/
     box-sizing: border-box;
     text-decoration: none;
-    list-style: none;
+    /*list-style: none;*/
 }
 
-* Scroll Suave */
+/* Scroll Suave */
 html {
     scroll-behavior: smooth;
 }
@@ -98,10 +98,10 @@ body {
     
     /*imgaem de fundo*/
     /* Trocar para a imagem real da mae*/
-    background-image: url('../images/salão.jpg'); 
+    background-image: url('../images/salao.jpg'); 
 
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
-    background-color: #333;  /* Cor de fundo caso a imagem falhe */
+    /*background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+    background-color: #333;   Cor de fundo caso a imagem falhe */
 
     background-size: cover; /* Faz a imagem cobrir toda a área */
     background-position: center center; /* Centraliza a imagem */
@@ -145,4 +145,58 @@ body {
     transform: scale(1.05);
 }
 
+}
+
+/* =================================
+   6. SEÇÃO DE SERVIÇOS
+   ================================= */
+.services-section {
+    padding: 100px 8%; 
+    text-align: center;
+}
+
+.services-section h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 3rem;
+    color: var(--cor-texto);
+    margin-bottom: 50px; 
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px; 
+}
+
+.service-card {
+    background-color: var(--cor-branco);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.service-card img {
+    width: 100%; 
+    border-radius: 5px; 
+    margin-bottom: 15px;
+}
+
+.service-card h3 {
+    font-family: var(--fonte-corpo);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--cor-texto);
+    margin-bottom: 10px;
+}
+
+.service-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
