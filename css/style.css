@@ -494,3 +494,29 @@ body {
     text-decoration: line-through;
     border-radius: 50%;
 }
+
+.day.selected {
+    background-color: var(--cor-dourado);
+    color: var(--cor-branco);
+    border-radius: 50%;
+}
+
+.day {
+    transition: all 0.2s ease-in-out;
+}
+
+.day.bookable:not(.selected):hover {
+    background-color: #f5f5f5;
+    color: var(--cor-dourado);
+    border-radius: 50%;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.day.unavailable:hover {
+    background-color: #ffebee;
+    color: #c62828;
+    border-radius: 50%;
+    cursor: not-allowed;
+    transform: scale(1.1);
+}

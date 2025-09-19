@@ -38,8 +38,12 @@
                     </div>
                     <div class="form-group">
                         <label for="hora">Horário</label>
-                        <input type="text" id="hora" placeholder="00:00">
-                        <i class="fas fa-clock"></i>
+                        <select id="hora" disabled> <option value="" disabled selected>Selecione um horário...</option>
+                            <option value="13:00-15:00">13:00 - 15:00</option>
+                            <option value="15:00-17:00">15:00 - 17:00</option>
+                            <option value="17:30-19:00">17:30 - 19:00</option>
+                            <option value="19:00-21:00">19:00 - 21:00</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="servico">Serviço</label>
@@ -56,10 +60,7 @@
 
             <div class="calendar-container">
                 <div class="calendar-header">
-                    <button class="nav-btn">&lt;</button>
-                    <h3>Setembro 2025</h3>
-                    <button class="nav-btn">&gt;</button>
-                </div>
+                    <button class="nav-btn" id="prev-month-btn">&lt;</button> <h3 id="current-month-year">Setembro 2025</h3> <button class="nav-btn" id="next-month-btn">&gt;</button> </div>
                 <div class="calendar-grid">
                     <div class="weekday">Do</div>
                     <div class="weekday">Se</div>
@@ -68,29 +69,8 @@
                     <div class="weekday">Qi</div>
                     <div class="weekday">Se</div>
                     <div class="weekday">Sa</div>
-                    
-                    <div class="day other-month">31</div>
-                    <div class="day">01</div>
-                    <div class="day">02</div>
-                    <div class="day">03</div>
-                    <div class="day">04</div>
-                    <div class="day available">05</div>
-                    <div class="day available">06</div>
-                    <div class="day">07</div>
-                    <div class="day">08</div>
-                    <div class="day">09</div>
-                    <div class="day">10</div>
-                    <div class="day">11</div>
-                    <div class="day available">12</div>
-                    <div class="day booked">13</div>
-                    <div class="day">14</div>
-                    <div class="day">15</div>
-                    <div class="day">16</div>
-                    <div class="day">17</div>
-                    <div class="day">18</div>
-                    <div class="day available">19</div>
-                    <div class="day booked">20</div>
-                </div>
+                    </div>
+            </div>
             </div>
         </div>
     </main>
