@@ -103,17 +103,17 @@ body {
     /*background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
     background-color: #333;   Cor de fundo caso a imagem falhe */
 
-    background-size: cover; /* Faz a imagem cobrir toda a área */
-    background-position: center center; /* Centraliza a imagem */
+    background-size: cover; 
+    background-position: center center; 
     text-align: center;
 
     .hero-content h1 {
         font-family: var(--fonte-titulo);
-        font-size: 4.5rem; /* Tamanho grande para o título */
+        font-size: 4.5rem; 
         color: var(--cor-branco);
         font-weight: 700;
-        line-height: 1.2; /* Espaçamento entre as linhas do título */
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Sombra no texto para legibilidade */
+        line-height: 1.2; 
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); 
     }
 /* =================================
    5. ESTILOS DE COMPONENTES GERAIS (BOTÕES)
@@ -199,4 +199,298 @@ body {
 .service-card p {
     font-size: 0.95rem;
     line-height: 1.6;
+}
+
+/* =================================
+   7. SEÇÃO QUEM SOU EU (SOBRE)
+   ================================= */
+.about-section {
+    display: flex; 
+    align-items: center; 
+    gap: 60px; 
+    padding: 100px 8%;
+    background-color: var(--cor-branco); 
+}
+
+.about-content {
+    flex: 1; 
+}
+
+.about-content h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    font-size: 1rem;
+    line-height: 1.7; 
+}
+
+.about-image {
+    flex: 1; 
+    text-align: center; 
+}
+
+.about-image img {
+    max-width: 400px; 
+    width: 100%; 
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* =================================
+   8. mensagem 
+   ================================= */
+.testimonials-section {
+
+    padding: 100px 8%;
+    background-color: var(--cor-dourado);
+    color: var(--cor-branco);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials-section::before {
+    content: '"';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-family: var(--fonte-titulo);
+    font-size: 20rem; 
+    color: rgba(255, 255, 255, 0.08); 
+    z-index: 1; 
+}
+
+   .testimonials-section blockquote {
+    font-family: var(--fonte-titulo);
+    font-size: 2.2rem;
+    font-style: italic;
+    line-height: 1.5;
+    
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+
+    position: relative;
+    z-index: 2;
+}
+
+.testimonial-author {
+    font-size: 1rem;
+    font-weight: 600;
+
+    position: relative; 
+    z-index: 2;
+}
+
+/* =================================
+   9. RODAPÉ (FOOTER)
+   ================================= */
+
+.footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    "logo Mensagem"
+    "info Social";
+
+    gap: 30px 60px;
+    padding: 80px 8%;
+    background-color: var(--cor-dourado);
+    color: var(--cor-texto);
+}
+
+.footer-logo h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 2.5rem;
+}
+
+.footer-message h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 2rem;
+    line-height: 1.4;
+}
+
+.footer-info p, .footer-social p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.footer-social a i {
+    font-size: 2rem; 
+    color: var(--cor-texto);
+    margin-right: 15px; 
+    transition: color 0.3s ease;
+}
+
+.footer-social a i:hover {
+    color: var(--cor-branco); 
+}
+
+/* =================================
+   10. (RESPONSIVIDADE)
+   ================================= */
+
+/* Para Telas (até 992px) */
+@media (max-width: 992px) {
+    .header {
+        padding: 20px 4%; 
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    .about-section {
+        flex-direction: column; 
+        text-align: center;
+    }
+
+    .footer {
+        grid-template-columns: 1fr; 
+        grid-template-areas: 
+            "logo"
+            "mensagem"
+            "info"
+            "social";
+        text-align: center;
+    }
+}
+
+/* Para Celulares (até 768px) */
+@media (max-width: 768px) {
+    .navbar {
+        display: none; 
+    }
+
+    .menu-icon {
+        display: flex; 
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .menu-icon span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--cor-texto);
+        margin: 4px 0;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.8rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr; 
+    }
+
+    .testimonials-section blockquote {
+        font-size: 1.8rem;
+    }
+}
+
+/* =================================
+   11. PÁGINA DE AGENDAMENTO
+   ================================= */
+
+.agendamento-section {
+    padding: 120px 8% 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100vh;
+}
+
+.agendamento-container {
+    display: flex;
+    gap: 50px;
+    background-color: var(--cor-dourado);
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 1100px;
+    width: 100%;
+}
+
+.agendamento-form { flex: 1; }
+.calendar-container { flex: 1; }
+
+.agendamento-form h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px ;
+    font-size: 1rem;
+    font-family: var(--fonte-corpo);
+}
+
+.form-group i {
+    position: absolute;
+    top: 70%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-header h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 1.8rem;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    text-align: center;
+}
+
+.weekday, .day {
+    padding: 10px;
+    font-weight: 600;
+}
+
+.day.other-month {
+    color: #ccc;
+}
+
+.day.available {
+    background-color: #e0f0e0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.day.booked {
+    background-color: #f0e0e0;
+    text-decoration: line-through;
+    border-radius: 50%;
 }

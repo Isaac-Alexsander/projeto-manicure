@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento - Daiane Pessoa</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">Daiane Pessoa</a>
+        <nav class="navbar">
+            <a href="index.html#inicio">Início</a>
+            <a href="index.html#servicos">Serviços</a>
+            <a href="index.html#sobre">Quem sou eu</a>
+            <a href="index.html#contato">Contato</a>
+        </nav>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <main class="agendamento-section">
+        <div class="agendamento-container">
+            <div class="agendamento-form">
+                <h2>Escolha o melhor horário para você!</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="data">Data</label>
+                        <input type="text" id="data" placeholder="__/__/____">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="hora">Horário</label>
+                        <input type="text" id="hora" placeholder="00:00">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="servico">Serviço</label>
+                        <select id="servico">
+                            <option value="" disabled selected>Selecione um serviço...</option>
+                            <option value="manutencao">Manutenção em Gel</option>
+                            <option value="alongamento">Alongamento</option>
+                            <option value="esmalte">Esmaltação em Gel</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Confirmar Agendamento</button>
+                </form>
+            </div>
+
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="nav-btn">&lt;</button>
+                    <h3>Setembro 2025</h3>
+                    <button class="nav-btn">&gt;</button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="weekday">Do</div>
+                    <div class="weekday">Se</div>
+                    <div class="weekday">Te</div>
+                    <div class="weekday">Qu</div>
+                    <div class="weekday">Qi</div>
+                    <div class="weekday">Se</div>
+                    <div class="weekday">Sa</div>
+                    
+                    <div class="day other-month">31</div>
+                    <div class="day">01</div>
+                    <div class="day">02</div>
+                    <div class="day">03</div>
+                    <div class="day">04</div>
+                    <div class="day available">05</div>
+                    <div class="day available">06</div>
+                    <div class="day">07</div>
+                    <div class="day">08</div>
+                    <div class="day">09</div>
+                    <div class="day">10</div>
+                    <div class="day">11</div>
+                    <div class="day available">12</div>
+                    <div class="day booked">13</div>
+                    <div class="day">14</div>
+                    <div class="day">15</div>
+                    <div class="day">16</div>
+                    <div class="day">17</div>
+                    <div class="day">18</div>
+                    <div class="day available">19</div>
+                    <div class="day booked">20</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-logo"><h2>Daiane Pessoa</h2></div>
+        <div class="footer-message"><h3>Obrigado pela visita! Sua beleza merece cuidado especial.</h3></div>
+        <div class="footer-info"><p><strong>Horário de atendimento:</strong> Ter - Sáb | 9h - 18h</p><p><a href="#">Política de privacidade</a></p><p><strong>Contatos:</strong></p><p>Telefone: 48 999999999</p><p>E-mail: daianepessoa@gmail.com</p></div>
+        <div class="footer-social"><p><strong>Siga nas redes:</strong></p><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
