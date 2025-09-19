@@ -520,3 +520,108 @@ body {
     cursor: not-allowed;
     transform: scale(1.1);
 }
+
+/* =================================
+   12. PÁGINA DE LOGIN E CADASTRO
+   ================================= */
+
+.auth-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.auth-container {
+    background-color: var(--cor-branco);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.auth-container h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.auth-container p {
+    margin-bottom: 30px;
+    color: #777;
+}
+
+.auth-container .form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+}
+
+.form-group-checkbox input {
+    margin-right: 10px;
+}
+
+.auth-container .btn {
+    width: 100%;
+}
+
+.toggle-link {
+    margin-top: 25px;
+    font-size: 0.9rem;
+}
+
+.toggle-link a {
+    color: var(--cor-dourado);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+
+.form-group.floating-label {
+    position: relative;
+    margin-bottom: 30px; 
+}
+
+.floating-label .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;  
+    font-size: 1rem;
+    text-align: left;
+    background-color: transparent;
+}
+
+.floating-label label {
+    position: absolute;
+    top: 40%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1rem;
+    pointer-events: none; 
+    transition: all 0.2s ease-in-out;
+}
+
+.floating-label .form-control:focus + label,
+.floating-label .form-control:not(:placeholder-shown) + label {
+    top: 0;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: var(--cor-dourado);
+    background-color: var(--cor-branco); 
+}
