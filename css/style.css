@@ -84,6 +84,7 @@ body {
     display: none;
 }
 
+
 /* =================================
    4. SEÇÃO PRINCIPAL (HERO)
    ================================= */
@@ -119,7 +120,8 @@ body {
    5. ESTILOS DE COMPONENTES GERAIS (BOTÕES)
    ================================= */
 
-   .btn {
+.btn {
+    all: unset;
     display: inline-block;
     padding: 14px 35px;
     margin-top: 25px;
@@ -135,6 +137,7 @@ body {
     border: 2px solid transparent;
     border-radius: 5px;
 
+    cursor: pointer;
     transition: all 0.3s ease ;
    }
 
@@ -287,7 +290,206 @@ body {
 }
 
 /* =================================
-   9. RODAPÉ (FOOTER)
+   9. PAGINA DAIANE
+   ================================= */
+.btn-sair {
+    all: unset;
+    display: inline-block;
+    padding: 10px 28px;
+    margin-top: 8px;
+
+    background-color: var(--cor-dourado);
+    color: var(--cor-branco);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    border: 2px solid transparent;
+    border-radius: 5px;
+
+    cursor: pointer;
+    transition: all 0.3s ease ;
+   }
+
+.btn-sair:hover {
+    background-color: transparent;
+    color: var(--cor-dourado);
+    border: 2px solid var(--cor-dourado);
+    transform: scale(1.05);
+}
+
+.agendamento-section {
+  padding: 120px 8% 80px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 100vh;
+  font-family: var(--fonte-corpo, Arial, sans-serif);
+}
+
+.agendamento-container {
+  display: flex;
+  gap: 50px;
+  background-color: var(--cor-dourado, #987a47);
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 1100px;
+  width: 100%;
+  color: var(--cor-branco, #fff);
+}
+
+/* Calendário Daiane */
+.calendar-container-daiane {
+  flex: 1;
+  background-color: #fff;
+  color: #333;
+  border-radius: 15px;
+  padding: 30px 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.calendar-header-daiane {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header-daiane h3 {
+  font-family: var(--fonte-titulo, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+  font-size: 1.8rem;
+  color: #4b3b00;
+}
+
+.weekday-daiane {
+  font-weight: 700;
+  padding: 10px 0;
+  text-align: center;
+  color: #8b6b19;
+  font-size: 1rem;
+  border-bottom: 2px solid #e1d6a1;
+}
+
+
+.calendar-grid-daiane {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  text-align: center;
+}
+
+.day {
+  padding: 14px 0;
+  font-weight: 600;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+}
+
+
+.day.unavailable {
+  color: #83732e;
+  background-color: transparent;
+  cursor: default;
+}
+
+/* Dias com agendamento*/
+.day.booked {
+  background-color: #8b6b19;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 8px #7a5e10;
+}
+
+.day.booked:hover {
+  background-color: #a1852a;
+  box-shadow: 0 0 12px #a1852a;
+  transform: scale(1.1);
+}
+
+
+.day.selected {
+  background-color: #4b3b00;
+  color: #fff;
+  box-shadow: 0 0 15px #4b3b00;
+  transform: scale(1.2);
+}
+
+/* Container dos detalhes */
+.agendamento-form-daiane {
+  flex: 1;
+  background-color: #fff;
+  color: #333;
+  border-radius: 15px;
+  padding: 30px 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.agendamento-form-daiane h2 {
+  font-family: var(--fonte-titulo, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #4b3b00;
+}
+
+#lista-agendamentos p {
+  font-style: italic;
+  color: #666;
+}
+
+/* Cards de agendamento */
+.agendamento-card {
+  background-color: #f9f6e7;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(155,135,50,0.3);
+  border: 1px solid #d7cca3;
+}
+
+.agendamento-card p {
+  margin: 6px 0;
+  font-weight: 500;
+  color: #4b3b00;
+}
+
+/* Botões aceitar e negar */
+.agendamento-card button {
+  background-color: #8b6b19;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.agendamento-card button:hover {
+  background-color: #a1852a;
+}
+
+.agendamento-card button.btn-reject {
+  background-color: #c94a3e;
+}
+
+.agendamento-card button.btn-reject:hover {
+  background-color: #da6059;
+}
+
+
+.hidden {
+  display: none;
+}
+/* =================================
+   10. RODAPÉ (FOOTER)
    ================================= */
 
 .footer {
@@ -400,6 +602,29 @@ body {
    11. PÁGINA DE AGENDAMENTO
    ================================= */
 
+.nav-btn {
+  background-color: #987a47;
+  color: var(--cor-branco);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+  opacity: 1;  /* sempre visível */
+  visibility: visible;
+}
+
+.nav-btn:hover {
+  background-color:  #8b6b19;
+  color: var(--cor-branco);
+}
 .agendamento-section {
     padding: 120px 8% 80px;
     display: flex;
@@ -421,6 +646,29 @@ body {
 
 .agendamento-form { flex: 1; }
 .calendar-container { flex: 1; }
+
+.agendamento-form button.btn {
+    display: inline-block;
+    width: auto;
+    padding: 16px 40px;
+    margin-top: 25px;
+
+    background-color:#987a47;
+    color: var(--cor-branco);
+
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.agendamento-form button.btn:hover {
+    background-color: #785a23; /* cor mais escura ao passar o mouse */
+}
 
 .agendamento-form h2 {
     font-family: var(--fonte-titulo);
@@ -520,6 +768,14 @@ body {
     cursor: not-allowed;
     transform: scale(1.1);
 }
+
+.day.unavailable.sunday,
+.day.unavailable.monday {
+    color: #6f4007; /* tom escuro fixo */
+    background-color: transparent;
+    cursor: not-allowed;
+}
+
 
 /* =================================
    12. PÁGINA DE LOGIN E CADASTRO
