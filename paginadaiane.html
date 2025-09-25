@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página da Daiane Pessoa</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">Daiane Pessoa</a>
+        <button class="btn-sair" onclick="logout()">Sair</button>
+    </header>
+
+    <script>
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+
+ <main class="agendamento-section">
+  <div class="agendamento-container">
+
+    
+    <div class="calendar-container-daiane">
+      <div class="calendar-header-daiane">
+        <button class="nav-btn" id="prev-month-btn-daiane">&lt;</button>
+        <h3 id="current-month-year-daiane">Setembro 2025</h3>
+        <button class="nav-btn" id="next-month-btn-daiane">&gt;</button>
+      </div>
+      <div class="calendar-grid-daiane">
+        <div class="weekday-daiane">Seg</div>
+        <div class="weekday-daiane">Ter</div>
+        <div class="weekday-daiane">Qua</div>
+        <div class="weekday-daiane">Qui</div>
+        <div class="weekday-daiane">Sex</div>
+        <div class="weekday-daiane">Sáb</div>
+        <div class="weekday-daiane">Dom</div>
+        
+      </div>
+    </div>
+
+    
+    <div id="detalhes-agendamentos" class="hidden agendamento-form-daiane">
+      <h2>Agendamentos do dia <span id="data-selecionada">--/--/----</span></h2>
+      <div id="lista-agendamentos">
+        <p>Nenhum agendamento selecionado.</p>
+      </div>
+    </div>
+
+  </div>
+ </main>
+
+ <footer class="footer">
+        <div class="footer-logo"><h2>Daiane Pessoa</h2></div>
+        <div class="footer-message"><h3>Obrigado pela visita! Sua beleza merece cuidado especial.</h3></div>
+        <div class="footer-info"><p><strong>Horário de atendimento:</strong> Ter - Sáb | 9h - 18h</p><p><a href="#">Política de privacidade</a></p><p><strong>Contatos:</strong></p><p>Telefone: 48 999999999</p><p>E-mail: daianepessoa@gmail.com</p></div>
+        <div class="footer-social"><p><strong>Siga nas redes:</strong></p><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
