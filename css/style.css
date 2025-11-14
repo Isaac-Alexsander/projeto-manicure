@@ -881,3 +881,144 @@ body {
     color: var(--cor-dourado);
     background-color: var(--cor-branco); 
 }
+
+/* =================================
+   13. PÁGINA "MEUS AGENDAMENTOS"
+   ================================= */
+
+/* Container genérico para páginas de conteúdo (como esta) */
+.pagina-container {
+    padding: 120px 8% 80px; /* Espaço para o header fixo */
+    max-width: 900px;
+    margin: 0 auto; /* Centraliza o conteúdo na tela */
+    min-height: 70vh; /* Altura mínima para empurrar o rodapé para baixo */
+}
+
+.pagina-container h1 {
+    font-family: var(--fonte-titulo);
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.pagina-container p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+.lista-agendamentos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.agendamento-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #ccc; /* Borda padrão */
+}
+
+.agendamento-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.agendamento-info p {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.agendamento-info p i {
+    margin-right: 8px;
+    color: var(--cor-dourado);
+}
+
+.agendamento-status {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.agendamento-status i {
+    margin-right: 10px;
+    font-size: 1.3rem;
+}
+
+/* Cor para status Pendente */
+.agendamento-item.pendente, 
+.agendamento-status.pendente {
+    border-left-color: #ffc107; /* Amarelo/Laranja */
+    color: #c79100;
+    background-color: #fff8e1;
+}
+
+/* Cor para status Confirmado */
+.agendamento-item.confirmado,
+.agendamento-status.confirmado {
+    border-left-color: #28a745; /* Verde */
+    color: #155724;
+    background-color: #d4edda;
+}
+
+/* Cor para status Recusado */
+.agendamento-item.recusado,
+.agendamento-status.recusado {
+    border-left-color: #dc3545; /* Vermelho */
+    color: #721c24;
+    background-color: #f8d7da;
+}
+
+/* =================================
+   14. PÁGINA ADMIN
+   ================================= */
+
+/* Ajuste para a lista de admin */
+.admin-lista .agendamento-item {
+    align-items: center; /* Garante alinhamento */
+}
+
+.admin-cliente-info {
+    font-weight: 600;
+    color: var(--cor-texto) !important; /* !important para sobrescrever o .agendamento-info p */
+    margin-top: 10px;
+}
+
+.admin-acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-admin {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-admin.confirmar {
+    background-color: #28a745;
+    color: white;
+}
+.btn-admin.confirmar:hover {
+    background-color: #218838;
+}
+
+.btn-admin.recusar {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-admin.recusar:hover {
+    background-color: #c82333;
+}
