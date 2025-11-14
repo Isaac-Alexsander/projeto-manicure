@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Agendamentos Pendentes</title>
     
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -25,39 +26,38 @@
         </div>
     </header>
 
-    <main class="pagina-container">
-        <h1>Painel Admin - Solicitações</h1>
-        <p>Revise e gerencie as solicitações de agendamento pendentes.</p>
-        
-        <div class="lista-agendamentos admin-lista">
-            
-            <div class="agendamento-item pendente">
-                <div class="agendamento-info">
-                    <h3>Manutenção em Gel</h3>
-                    <p><i class="fas fa-calendar-alt"></i> Data: 20/12/2025</p>
-                    <p><i class="fas fa-clock"></i> Horário: 15:00 - 17:00</p>
-                    <p class="admin-cliente-info"><i class="fas fa-user"></i> Cliente: cliente.email@gmail.com</p>
-                </div>
-                <div class="admin-acoes">
-                    <button class="btn-admin confirmar">Confirmar</button>
-                    <button class="btn-admin recusar">Recusar</button>
-                </div>
-            </div>
+    <main class="pagina-container admin-page">
+        <h1>Painel Admin</h1>
+        <p>Use o calendário para visualizar a disponibilidade e gerencie as solicitações de agendamento abaixo.</p>
 
-            <div class="agendamento-item pendente">
-                <div class="agendamento-info">
-                    <h3>Alongamento</h3>
-                    <p><i class="fas fa-calendar-alt"></i> Data: 22/12/2025</p>
-                    <p><i class="fas fa-clock"></i> Horário: 13:00 - 15:00</p>
-                    <p class="admin-cliente-info"><i class="fas fa-user"></i> Cliente: outra.pessoa@hotmail.com</p>
-                </div>
-                <div class="admin-acoes">
-                    <button class="btn-admin confirmar">Confirmar</button>
-                    <button class="btn-admin recusar">Recusar</button>
-                </div>
+        <div class="admin-calendar-container">
+            <div class="calendar-header">
+                <button class="nav-btn" id="prev-month-btn">&lt;</button>
+                <h3 id="current-month-year"></h3>
+                <button class="nav-btn" id="next-month-btn">&gt;</button>
             </div>
+            <div class="calendar-grid">
+                <!-- dias serão renderizados por js/admin.js -->
+            </div>
+        </div>
 
-        </div> </main>
+        <div class="admin-details-grid">
+            <section class="admin-availability">
+                <h2>Detalhes do Dia</h2>
+                <div id="selected-day-info">
+                    <p>Selecione um dia no calendário para ver horários livres e agendamentos.</p>
+                </div>
+            </section>
+
+            <section class="admin-requests">
+                <h2>Solicitações Pendentes</h2>
+                <div class="admin-lista">
+                    <!-- Itens de agendamento pendentes -->
+                </div>
+            </section>
+        </div>
+
+    </main>
 
         <footer id="contato" class="footer">
             <div class="footer-logo">
@@ -80,6 +80,7 @@
             </div>
         </footer>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/admin.js" defer></script>
 </body>
 </html>

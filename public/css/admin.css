@@ -1,0 +1,174 @@
+/* ===================================
+   CSS PÁGINA ADMIN (admin-agendamentos.html)
+   =================================== */
+
+/* 1. LAYOUT PRINCIPAL */
+.admin-page {
+    padding: 120px 8% 80px;
+}
+
+/* 2. CALENDÁRIO DO ADMIN */
+.admin-calendar-container {
+    background: var(--cor-branco);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+.admin-calendar-container .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.admin-calendar-container .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.admin-calendar-container .day {
+    padding: 10px 0;
+    font-weight: 600;
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-calendar-container .day .day-number {
+    position: relative;
+    z-index: 2;
+}
+
+.admin-calendar-container .day .day-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background-color: var(--cor-dourado);
+    color: white;
+    font-size: 0.7rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.admin-calendar-container .day.unavailable {
+    color: #ccc;
+    cursor: default;
+    background-color: #f7f7f7;
+}
+
+.admin-calendar-container .day.available {
+    background-color: #e8f5e9;
+    cursor: pointer;
+}
+
+.admin-calendar-container .day.fully-booked {
+    background-color: #ffebee;
+    color: #c62828;
+    cursor: pointer;
+}
+
+.admin-calendar-container .day.admin-bookable:hover {
+    outline: 2px solid var(--cor-dourado);
+    background-color: #fdf8f0;
+}
+
+.admin-calendar-container .day.selected {
+    background-color: var(--cor-dourado);
+    color: var(--cor-branco);
+    font-weight: 700;
+    transform: scale(1.05);
+    box-shadow: none;
+}
+
+.admin-calendar-container .day.selected .day-badge {
+    background-color: var(--cor-branco);
+    color: var(--cor-dourado);
+}
+
+/* 3. LAYOUT DOS DETALHES */
+.admin-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.admin-availability,
+.admin-requests {
+    background-color: var(--cor-branco);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.admin-availability h2,
+.admin-requests h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--cor-texto);
+}
+
+#selected-day-info ul,
+.admin-lista ul {
+    padding-left: 20px;
+    list-style: none;
+}
+
+#selected-day-info li,
+.admin-lista li {
+    margin-bottom: 10px;
+}
+
+.day-appointments li {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 4. BOTÕES DE AÇÃO DO ADMIN */
+.admin-acoes button {
+    padding: 8px 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-acoes .confirmar {
+    background-color: #28a745;
+    color: white;
+}
+
+.admin-acoes .confirmar:hover {
+    background-color: #218838;
+}
+
+.admin-acoes .recusar {
+    background-color: #dc3545;
+    color: white;
+}
+
+.admin-acoes .recusar:hover {
+    background-color: #c82333;
+}
+
+/* 5. RESPONSIVIDADE */
+@media (max-width: 992px) {
+    .admin-details-grid {
+        grid-template-columns: 1fr;
+    }
+}

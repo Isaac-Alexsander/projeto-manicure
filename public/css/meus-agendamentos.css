@@ -1,0 +1,76 @@
+/* ===================================
+   CSS PÁGINA MEUS AGENDAMENTOS (meus-agendamentos.html)
+   =================================== */
+
+/* 1. LISTA DE AGENDAMENTOS */
+.lista-agendamentos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.agendamento-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background-color: var(--cor-branco);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #ccc;
+}
+
+.agendamento-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.agendamento-info p {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.agendamento-info p i {
+    margin-right: 8px;
+    color: var(--cor-dourado);
+}
+
+/* 2. STATUS DOS AGENDAMENTOS */
+.agendamento-status {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.agendamento-status i {
+    margin-right: 10px;
+    font-size: 1.3rem;
+}
+
+/* Status Pendente */
+.agendamento-item.pendente,
+.agendamento-status.pendente {
+    border-left-color: #ffc107;
+    color: #c79100;
+    background-color: #fff8e1;
+}
+
+/* Status Confirmado */
+.agendamento-item.confirmado,
+.agendamento-status.confirmado {
+    border-left-color: #28a745;
+    color: #155724;
+    background-color: #d4edda;
+}
+
+/* Status Recusado */
+.agendamento-item.recusado,
+.agendamento-status.recusado {
+    border-left-color: #dc3545;
+    color: #721c24;
+    background-color: #f8d7da;
+}

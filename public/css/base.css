@@ -1,0 +1,191 @@
+/* ===================================
+   CSS BASE - ESTILOS GLOBAIS
+   =================================== */
+
+/* 1. IMPORTAÇÃO DE FONTES */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+/* 2. VARIÁVEIS GLOBAIS */
+:root {
+    --cor-dourado: #BFA16E;
+    --cor-fundo: #FDFBF5;
+    --cor-texto: #4F4F4F;
+    --cor-branco: #FFFFFF;
+
+    --fonte-titulo: 'Cormorant Garamond', serif;
+    --fonte-corpo: 'Poppins', sans-serif;
+}
+
+/* 3. RESET */
+* {
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    font-family: var(--fonte-corpo);
+    color: var(--cor-texto);
+}
+
+/* 4. HEADER (USADO EM TODAS AS PÁGINAS) */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--cor-branco);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-family: var(--fonte-titulo);
+    font-size: 2rem;
+    color: var(--cor-texto);
+    font-weight: 700;
+}
+
+.navbar a {
+    font-family: var(--fonte-corpo);
+    font-size: 1.1rem;
+    color: var(--cor-texto);
+    margin-left: 2rem;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: var(--cor-dourado);
+}
+
+.menu-icon {
+    display: none;
+}
+
+/* 5. BOTÕES GLOBAIS */
+.btn {
+    display: inline-block;
+    padding: 14px 35px;
+    margin-top: 25px;
+    background-color: var(--cor-dourado);
+    color: var(--cor-branco);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: transparent;
+    color: var(--cor-dourado);
+    border: 2px solid var(--cor-dourado);
+    transform: scale(1.05);
+}
+
+/* 6. CONTAINER GENÉRICO PARA PÁGINAS */
+.pagina-container {
+    padding: 120px 8% 80px;
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 70vh;
+}
+
+.pagina-container h1 {
+    font-family: var(--fonte-titulo);
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.pagina-container p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+/* 7. FOOTER (USADO EM ALGUMAS PÁGINAS) */
+.footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    "logo mensagem"
+    "info social";
+    gap: 30px 60px;
+    padding: 80px 8%;
+    background-color: var(--cor-dourado);
+    color: var(--cor-texto);
+}
+
+.footer-logo h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 2.5rem;
+}
+
+.footer-message h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 2rem;
+    line-height: 1.4;
+}
+
+.footer-info p, .footer-social p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.footer-social a i {
+    font-size: 2rem;
+    color: var(--cor-texto);
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+.footer-social a i:hover {
+    color: var(--cor-branco);
+}
+
+/* 8. RESPONSIVIDADE GLOBAL */
+@media (max-width: 992px) {
+    .header {
+        padding: 20px 4%;
+    }
+
+    .footer {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "logo"
+            "mensagem"
+            "info"
+            "social";
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        display: none;
+    }
+
+    .menu-icon {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .menu-icon span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--cor-texto);
+        margin: 4px 0;
+    }
+}
