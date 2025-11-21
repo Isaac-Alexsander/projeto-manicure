@@ -1,99 +1,184 @@
-# 💅 Daiane Pessoa - Sistema de Agendamentos
+# 💅 Sistema de Agendamento para Manicure
 
-> Sistema web para gerenciamento de agendamentos de serviços de manicure e nail design
+Sistema web para gerenciamento de agendamentos de serviços de manicure/pedicure, desenvolvido como Projeto Integrador do curso de Desenvolvimento Web.
 
 ## 📋 Sobre o Projeto
 
-Projeto acadêmico desenvolvido para automatizar o processo de agendamento de serviços de manicure. O sistema permite que clientes solicitem agendamentos online e oferece um painel administrativo para gerenciar essas solicitações.
+Este sistema permite que clientes agendem serviços de manicure online, enquanto administradores gerenciam os agendamentos, serviços e acompanham métricas do negócio através de um dashboard.
 
-### ✨ Funcionalidades Principais
+### Funcionalidades
 
-- 🔐 **Autenticação** - Cadastro e login seguro com senhas criptografadas
-- 📅 **Agendamento** - Seleção de data, horário e tipo de serviço
-- 👥 **Painel do Cliente** - Visualização do status dos agendamentos
-- 🛠️ **Painel Administrativo** - Aprovação/rejeição de solicitações
-- 📱 **Design Responsivo** - Interface adaptável para diferentes dispositivos
+#### Para Clientes
+- 🔐 Cadastro e autenticação de usuários
+- 📅 Agendamento de serviços
+- 👀 Visualização dos próprios agendamentos
+- ❌ Cancelamento de agendamentos
+- 💳 Acompanhamento de status de pagamento
 
-## 🛠️ Tecnologias Utilizadas
+#### Para Administradores
+- 📊 Dashboard com métricas do negócio
+- 📋 Gerenciamento de todos os agendamentos
+- ✅ Atualização de status dos agendamentos
+- 💰 Controle de pagamentos
+- 📈 Visualização de estatísticas
 
-- **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
-- **Backend:** PHP 7.4+
-- **Banco de Dados:** PostgreSQL 10+
-- **Arquitetura:** MVC simplificado
+## 🚀 Tecnologias Utilizadas
+
+- **Frontend:**
+  - HTML5
+  - CSS3
+  - JavaScript (Vanilla)
+
+- **Backend:**
+  - PHP 7.4+
+  - PostgreSQL
+
+- **Bibliotecas:**
+  - PDO (PHP Data Objects) para conexão com banco de dados
 
 ## 📁 Estrutura do Projeto
 
 ```
 projeto-manicure/
-├── 📄 README.md
-├── 🗃️ migration/           # Scripts SQL para criação das tabelas
+���── migration/              # Scripts SQL para criação do banco
 │   ├── create-usuario.sql
+│   ├── create-servicos.sql
 │   └── create-agendamento.sql
-├── 🐘 php/                 # Backend e APIs
-│   ├── bd.php             # Configuração do banco
-│   ├── auth/              # Autenticação
-│   └── api/               # Endpoints da API
-└── 🌐 public/             # Frontend
-    ├── *.html             # Páginas principais
-    ├── css/               # Estilos organizados por página
-    ├── js/                # Scripts organizados por funcionalidade
-    └── images/            # Assets visuais
+├── php/                    # Backend PHP
+│   ├── bd.php             # Conexão com banco de dados
+│   ├── config.php         # Configurações do sistema
+│   ├── session.php        # Gerenciamento de sessões
+│   ├── login.php          # Autenticação
+│   ├── cadastro.php       # Registro de usuários
+│   ├── agendar.php        # Criar agendamentos
+│   ├── servicos.php       # Listar serviços
+│   └── ...                # Outros endpoints
+└── public/                 # Frontend
+    ├── index.html         # Página inicial
+    ├── auth.html          # Login/Cadastro
+    ├── agendamento.html   # Agendar serviços
+    ├── dashboard.html     # Dashboard admin
+    ├── css/               # Estilos
+    ├── js/                # Scripts
+    └── images/            # Imagens
 ```
 
-## 🚀 Instalação e Configuração
+## ⚙️ Configuração e Instalação
 
 ### Pré-requisitos
 
-- PHP 7.4+ com extensões PDO e pgsql
-- PostgreSQL 10+
-- Servidor web (Apache/Nginx) ou PHP built-in server
+- PHP 7.4 ou superior
+- PostgreSQL 12 ou superior
+- Servidor web (Apache/Nginx)
+- Extensão PHP PDO_PGSQL habilitada
 
-### 1. Configuração do Banco de Dados
+### Passo a Passo
 
-```bash
-# Criar o banco de dados
-psql -U postgres -c "CREATE DATABASE db_projeto_manicure;"
+1. **Clone o repositório**
+   ```bash
+   git clone <url-do-repositorio>
+   cd projeto-manicure
+   ```
 
-# Executar as migrações
-psql -U postgres -d db_projeto_manicure -f migration/create-usuario.sql
-psql -U postgres -d db_projeto_manicure -f migration/create-agendamento.sql
-```
+2. **Configure o banco de dados**
+   
+   Crie um banco de dados PostgreSQL:
+   ```bash
+   createdb nome_do_banco
+   ```
 
-### 2. Configuração das Credenciais
+3. **Execute as migrations**
+   
+   Execute os scripts SQL na ordem:
+   ```bash
+   psql -d nome_do_banco -f migration/create-usuario.sql
+   psql -d nome_do_banco -f migration/create-servicos.sql
+   psql -d nome_do_banco -f migration/create-agendamento.sql
+   ```
 
-As credenciais do banco estão em `php/bd.php`:
+4. **Configure as credenciais**
+   
+   Copie o arquivo de configuração de exemplo:
+   ```bash
+   cp php/config.example.php php/config.php
+   ```
+   
+   Edite o arquivo `php/config.php` com suas credenciais:
+   ```php
+   return [
+       'db' => [
+           'host' => 'localhost',
+           'port' => '5432',
+           'dbname' => 'nome_do_banco',
+           'user' => 'seu_usuario',
+           'password' => 'sua_senha'
+       ]
+   ];
+   ```
 
-```php
-$host = 'localhost';
-$db = 'db_projeto_manicure'; 
-$user = 'postgres';
-$pass = 'postgres';
-$port = '5432';
-```
+5. **Configure o servidor web**
+   
+   Aponte o document root para a pasta `public/`
 
-> 💡 **Nota:** Para ambiente de produção, use variáveis de ambiente
+6. **Acesse o sistema**
+   
+   Abra o navegador em `http://localhost/`
 
-### 3. Executar o Projeto
+## ���️ Banco de Dados
 
-```bash
-# Servidor PHP built-in (desenvolvimento)
-php -S 127.0.0.1:8000 -t public/
+### Tabelas Principais
 
-# Acesse: http://127.0.0.1:8000
-```
+- **usuario**: Armazena dados dos usuários (clientes e administradores)
+- **servicos**: Catálogo de serviços disponíveis
+- **agendamento**: Registros de agendamentos realizados
 
-## 🎯 Como Usar
+## 🔒 Segurança
 
-### Para Clientes
+- Senhas criptografadas com hash
+- Prepared statements para prevenir SQL Injection
+- Validação de sessão em rotas protegidas
+- Sanitização de inputs do usuário
 
-1. **Cadastro/Login:** Acesse `auth.html` para criar conta ou fazer login
-2. **Agendar Serviço:** Em `agendamento.html`, selecione data, horário e serviço
-3. **Acompanhar Status:** Veja seus agendamentos em `meus-agendamentos.html`
+## 👥 Tipos de Usuário
 
-### Para Administradores
+- **Cliente: Pode agendar e visualizar seus próprios agendamentos
+- **Administrador: Acesso total ao sistema e dashboard
 
-1. **Acesso Admin:** Faça login e acesse `admin-agendamentos.html`
-2. **Gerenciar Solicitações:** Aprove ou rejeite agendamentos pendentes
-3. **Visualizar Calendário:** Use o calendário para ver disponibilidade
+## 📱 Páginas
 
+- `/index.html` - Página inicial
+- `/auth.html` - Login e cadastro
+- `/agendamento.html` - Agendar serviços
+- `/meus-agendamentos.html` - Agendamentos do cliente
+- `/dashboard.html` - Dashboard administrativo
+- `/admin-agendamentos.html` - Gerenciar agendamentos (admin)
 
+## 🛠️ API Endpoints
+
+| Endpoint | Método | Descrição |
+|----------|--------|-----------|
+| `/php/login.php` | POST | Autenticação de usuário |
+| `/php/cadastro.php` | POST | Registro de novo usuário |
+| `/php/servicos.php` | GET | Lista serviços disponíveis |
+| `/php/agendar.php` | POST | Criar novo agendamento |
+| `/php/meus_agendamentos.php` | GET | Lista agendamentos do usuário |
+| `/php/listar_agendamentos.php` | GET | Lista todos agendamentos (admin) |
+| `/php/atualizar_status.php` | POST | Atualizar status do agendamento |
+| `/php/atualizar_pagamento.php` | POST | Atualizar status de pagamento |
+| `/php/cancelar_agendamento.php` | POST | Cancelar agendamento |
+| `/php/dashboard_metricas.php` | GET | Obter métricas (admin) |
+
+## 📄 Licença
+
+Este projeto foi desenvolvido para fins educacionais como parte do Projeto Integrador do curso de Desenvolvimento Web - SATC.
+
+## 👨‍💻 Autores
+
+Isaac Alexsander Pereira Pessoa
+Isabela Madeira José
+João Paulo Sigieski Boneti
+José Henrique Kurtz Dos Santos
+
+---
+
+**SATC - Associação Beneficente da Indústria Carbonífera de Santa Catarina**
