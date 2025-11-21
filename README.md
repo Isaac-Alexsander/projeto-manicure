@@ -141,8 +141,8 @@ projeto-manicure/
 
 ## 👥 Tipos de Usuário
 
-- **Cliente: Pode agendar e visualizar seus próprios agendamentos
-- **Administrador: Acesso total ao sistema e dashboard
+- **Cliente**: Pode agendar e visualizar seus próprios agendamentos
+- **Administrador**: Acesso total ao sistema e dashboard
 
 ## 📱 Páginas
 
@@ -174,10 +174,10 @@ Este projeto foi desenvolvido para fins educacionais como parte do Projeto Integ
 
 ## 👨‍💻 Autores
 
-Isaac Alexsander Pereira Pessoa
-Isabela Madeira José
-João Paulo Sigieski Boneti
-José Henrique Kurtz Dos Santos
+ - Isaac Alexsander Pereira Pessoa 
+ - Isabela Madeira José 
+ - João Paulo Sigieski Boneti 
+ - José Henrique Kurtz Dos Santos 
 
 ---
 
