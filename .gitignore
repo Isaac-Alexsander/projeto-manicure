@@ -1,0 +1,21 @@
+# Arquivo de configuração com credenciais
+php/config.php
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Backups
+*.bak
+*~
+

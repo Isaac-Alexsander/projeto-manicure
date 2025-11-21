@@ -57,8 +57,26 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
 
             const formData = new FormData(cadastroForm);
+            const nome = formData.get('nome');
+            const email = formData.get('email');
             const senha = formData.get('senha');
             const confirmaSenha = formData.get('confirma_senha');
+
+            // Validações
+            if (!nome || nome.trim().length < 3) {
+                alert('Nome deve ter pelo menos 3 caracteres!');
+                return;
+            }
+
+            if (!email || !email.includes('@')) {
+                alert('Digite um email válido!');
+                return;
+            }
+
+            if (senha.length < 6) {
+                alert('A senha deve ter pelo menos 6 caracteres!');
+                return;
+            }
 
             if (senha !== confirmaSenha) {
                 alert('As senhas não coincidem!');

@@ -5,12 +5,21 @@ $pdo = require 'bd.php';
 
 header('Content-Type: application/json');
 
-$email = isset($_POST['email']) ? $_POST['email'] : '';
+$nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
+$email = isset($_POST['email']) ? trim($_POST['email']) : '';
+$telefone = isset($_POST['telefone']) ? trim($_POST['telefone']) : null;
 $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
 
-if (!$email || !$senha) {
+if (!$nome || !$email || !$senha) {
     http_response_code(400);
-    echo json_encode(['mensagem' => 'Email e senha são obrigatórios.']);
+    echo json_encode(['mensagem' => 'Nome, email e senha são obrigatórios.']);
+    exit;
+}
+
+// Validar formato de email
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo json_encode(['mensagem' => 'Email inválido.']);
     exit;
 }
 
@@ -18,10 +27,10 @@ if (!$email || !$senha) {
 $senhaHash = password_hash($senha, PASSWORD_ARGON2ID);
 
 try {
-    // Insere também o papel (role) como 'cliente'
-    $sql = "INSERT INTO usuarios (email, senha, role) VALUES (?, ?, ?)";
+    // Insere com nome e telefone
+    $sql = "INSERT INTO usuarios (nome, email, telefone, senha, role) VALUES (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$email, $senhaHash, 'cliente']);
+    $stmt->execute([$nome, $email, $telefone, $senhaHash, 'cliente']);
 
     http_response_code(201);
     echo json_encode(['mensagem' => 'Usuário cadastrado com sucesso!']);

@@ -11,9 +11,9 @@
 
 <body class="auth-body">
     <div class="auth-container">
-        <form id= "login-form">
-            <h2>faça seu login </h2>
-            <p> Bem-vindo (a) de volta! </p>
+        <form id="login-form">
+            <h2>Faça seu login</h2>
+            <p>Bem-vindo(a) de volta!</p>
 
             <div class="form-group floating-label">
                 <input type="email" id="login-email" name="email" class="form-control" placeholder=" " required>
@@ -23,25 +23,36 @@
                 <input type="password" id="login-password" name="senha" class="form-control" placeholder=" " required>
                 <label for="login-password">Senha</label>
             </div>
-            
+
             <div class="form-group-checkbox">
                 <input type="checkbox" id="terms-login">
-                <label for="terms-login"> Lembrar de mim </label>
+                <label for="terms-login">Lembrar de mim</label>
             </div>
             <button type="submit" class="btn">Entrar</button>
-            <p class ="toggle-link"> Não em uma conta ? <a href="#" id="show-cadastro"> Crie uma agora!</a></p>
+            <p class="toggle-link">Não tem uma conta? <a href="#" id="show-cadastro">Crie uma agora!</a></p>
         </form>
 
         <form id="cadastro-form" style="display: none;">
             <h2>Faça seu Cadastro!</h2>
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email" required>
+            <div class="form-group floating-label">
+                <input type="text" id="cadastro-nome" name="nome" class="form-control" placeholder=" " required>
+                <label for="cadastro-nome">Nome Completo</label>
             </div>
-            <div class="form-group">
-                <input type="password" name="senha" placeholder="Senha" required>
+            <div class="form-group floating-label">
+                <input type="email" id="cadastro-email" name="email" class="form-control" placeholder=" " required>
+                <label for="cadastro-email">E-mail</label>
             </div>
-            <div class="form-group">
-                <input type="password" name="confirma_senha" placeholder="Confirme sua Senha" required>
+            <div class="form-group floating-label">
+                <input type="tel" id="cadastro-telefone" name="telefone" class="form-control" placeholder=" ">
+                <label for="cadastro-telefone">Telefone (opcional)</label>
+            </div>
+            <div class="form-group floating-label">
+                <input type="password" id="cadastro-senha" name="senha" class="form-control" placeholder=" " required>
+                <label for="cadastro-senha">Senha</label>
+            </div>
+            <div class="form-group floating-label">
+                <input type="password" id="cadastro-confirma-senha" name="confirma_senha" class="form-control" placeholder=" " required>
+                <label for="cadastro-confirma-senha">Confirme sua Senha</label>
             </div>
             <div class="form-group-checkbox">
                 <input type="checkbox" id="terms-register" required>
@@ -51,8 +62,8 @@
             <p class="toggle-link">Já tem uma conta? <a href="#" id="show-login">Faça o login</a></p>
         </form>
     </div>
-    
- <script src="js/main.js" defer></script>
- <script src="js/auth.js" defer></script>
+
+    <script src="js/auth.js"></script>
 </body>
 </html>
+

@@ -8,6 +8,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Horários disponíveis por dia
     const ALL_SLOTS = ['09:00', '11:00', '15:00'];
     let agendamentosCache = []; // cache de agendamentos existentes
+    let servicoSelecionado = null; // serviço atualmente selecionado
+
+    // Ícones para cada tipo de serviço
+    const servicoIcons = {
+        'corte': 'fa-scissors',
+        'barba': 'fa-user',
+        'manutencao': 'fa-gem',
+        'alongamento': 'fa-hand-sparkles',
+        'esmalte': 'fa-paint-brush',
+        'unha': 'fa-hand-sparkles',
+        'gel': 'fa-gem',
+        'default': 'fa-star'
+    };
+
+    function getIconForServico(nome) {
+        const nomeLower = nome.toLowerCase();
+        for (const [key, icon] of Object.entries(servicoIcons)) {
+            if (nomeLower.includes(key)) return icon;
+        }
+        return servicoIcons.default;
+    }
 
     // Buscar agendamentos existentes
     async function fetchAgendamentos() {
@@ -21,11 +42,71 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Buscar e renderizar serviços
+    async function fetchServicos() {
+        try {
+            const res = await fetch('../php/servicos.php', { cache: 'no-store' });
+            if (!res.ok) throw new Error('Falha ao carregar serviços');
+            const servicos = await res.json();
+
+            const listaServicos = document.getElementById('lista-servicos');
+
+            if (!servicos || servicos.length === 0) {
+                listaServicos.innerHTML = '<p class="loading-text">Nenhum serviço disponível no momento.</p>';
+                return;
+            }
+
+            // Renderizar cards de serviços
+            listaServicos.innerHTML = '';
+            servicos.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'servico-card';
+                card.dataset.servicoId = s.id;
+
+                const icon = getIconForServico(s.nome);
+                const preco = parseFloat(s.preco).toFixed(2);
+
+                card.innerHTML = `
+                    <div class="icon"><i class="fas ${icon}"></i></div>
+                    <h4>${s.nome}</h4>
+                    <p class="preco">R$ ${preco}</p>
+                `;
+
+                card.addEventListener('click', () => selecionarServico(s, card));
+                listaServicos.appendChild(card);
+            });
+
+        } catch (err) {
+            console.error(err);
+            document.getElementById('lista-servicos').innerHTML = '<p class="loading-text">Erro ao carregar serviços.</p>';
+        }
+    }
+
+    function selecionarServico(servico, cardElement) {
+        // Remover seleção anterior
+        document.querySelectorAll('.servico-card').forEach(c => c.classList.remove('selected'));
+
+        // Adicionar seleção ao card clicado
+        cardElement.classList.add('selected');
+
+        // Atualizar serviço selecionado
+        servicoSelecionado = servico;
+
+        // Atualizar campo hidden com o ID do serviço
+        const servicoInput = document.getElementById('servico');
+        servicoInput.value = servico.id;
+
+        // Limpar seleção de data e hora
+        document.getElementById('data').value = '';
+        document.getElementById('hora').innerHTML = '<option value="">Selecione uma data primeiro</option>';
+        document.getElementById('hora').disabled = true;
+        document.querySelector('.day.selected')?.classList.remove('selected');
+    }
+
     function normalizeTime(t) {
         if (!t) return '';
         const s = String(t).trim();
 
-        // Primeiro tenta extrair HH:MM usando regex
         const m = s.match(/(\d{1,2}):(\d{2})/);
         if (m) {
             const hh = String(m[1]).padStart(2, '0');
@@ -33,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return `${hh}:${mm}`;
         }
 
-        // Fallback para strings simples
         if (s.includes(':')) {
             const parts = s.split(':');
             if (parts.length >= 2) {
@@ -50,8 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const booked = [];
 
         agendamentosCache.forEach(a => {
-            // Ignorar agendamentos recusados (liberam a vaga)
-            if (typeof a.status === 'string' && a.status.toLowerCase() === 'recusado') return;
+            // Ignorar agendamentos recusados e cancelados (liberam a vaga)
+            if (typeof a.status === 'string' && (a.status.toLowerCase() === 'recusado' || a.status.toLowerCase() === 'cancelado')) return;
 
             if (a.data_agendamento === dateKey) {
                 const horaNorm = normalizeTime(a.hora_agendamento);
@@ -70,12 +150,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Filtrar horários livres com comparação mais robusta
         const freeSlots = ALL_SLOTS.filter(slot => {
-            const isBooked = bookedSlots.some(bookedSlot => {
-                const normalizedSlot = normalizeTime(slot);
-                const normalizedBooked = normalizeTime(bookedSlot);
-                return normalizedSlot === normalizedBooked;
-            });
-            return !isBooked;
+            const normalizedSlot = normalizeTime(slot);
+            return !bookedSlots.some(bookedSlot => normalizeTime(bookedSlot) === normalizedSlot);
         });
 
         // Limpar opções existentes
@@ -107,14 +183,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const servico = document.getElementById('servico').value;
 
         // Validação do serviço
-        if (!servico || servico.trim() === '') {
+        if (!servico || servico === '') {
             alert('Por favor, selecione um serviço antes de agendar.');
             return;
         }
 
         // Validação da data
         if (!data) {
-            alert('Por favor, selecione uma data.');
+            alert('Por favor, selecione uma data no calendário.');
             return;
         }
 
@@ -127,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData();
         formData.append('data', data);
         formData.append('hora', hora);
-        formData.append('servico', servico);
+        formData.append('servico_id', servico); // enviar servico_id
 
         try {
             const response = await fetch('../php/agendar.php', { method: 'POST', body: formData });
@@ -135,6 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
             alert(result.mensagem);
             if (response.ok) {
                 agendamentoForm.reset();
+                servicoSelecionado = null;
+                document.querySelectorAll('.servico-card').forEach(c => c.classList.remove('selected'));
                 document.querySelector('.day.selected')?.classList.remove('selected');
                 document.getElementById('hora').disabled = true;
                 // Recarregar agendamentos para atualizar disponibilidade
@@ -152,7 +230,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevMonthBtn = document.getElementById('prev-month-btn');
     const nextMonthBtn = document.getElementById('next-month-btn');
     const dateInput = document.getElementById('data');
-    const timeSelect = document.getElementById('hora');
     let currentDate = new Date();
 
     function keyForDate(dateObj) {
@@ -182,12 +259,17 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let day = 1; day <= daysInMonth; day++) {
             const dayElement = document.createElement('div');
             dayElement.classList.add('day');
-            dayElement.textContent = day;
+
+            // criar span para o número do dia (para facilitar esconder quando selecionado)
+            const dayNumber = document.createElement('span');
+            dayNumber.className = 'day-number';
+            dayNumber.textContent = day;
+            dayElement.appendChild(dayNumber);
 
             const dayDate = new Date(year, month, day);
             const dateKey = keyForDate(dayDate);
 
-            if (dayDate < today || dayDate.getDay() === 0 || dayDate.getDay() === 1) {
+            if (dayDate < today || dayDate.getDay() === 0 || dayDate.getDay() === 6) {
                 dayElement.classList.add('unavailable');
             } else {
                 // Verificar se há horários disponíveis usando a mesma lógica da updateAvailableHours
@@ -195,17 +277,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Filtrar horários livres com comparação robusta
                 const freeSlots = ALL_SLOTS.filter(slot => {
-                    const isBooked = bookedSlots.some(bookedSlot => {
-                        const normalizedSlot = normalizeTime(slot);
-                        const normalizedBooked = normalizeTime(bookedSlot);
-                        return normalizedSlot === normalizedBooked;
-                    });
-                    return !isBooked;
+                    const normalizedSlot = normalizeTime(slot);
+                    return !bookedSlots.some(bookedSlot => normalizeTime(bookedSlot) === normalizedSlot);
                 });
 
                 if (freeSlots.length > 0) {
                     dayElement.classList.add('bookable');
                     dayElement.classList.add('available');
+
+                    // badge com número de horários livres
+                    const badge = document.createElement('span');
+                    badge.className = 'day-badge';
+                    badge.textContent = freeSlots.length;
+                    dayElement.appendChild(badge);
                 } else {
                     dayElement.classList.add('booked');
                     dayElement.setAttribute('title', 'Não há horários livres neste dia');
@@ -228,12 +312,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendarGrid.addEventListener('click', (event) => {
-        if (event.target.classList.contains('bookable') && event.target.classList.contains('available')) {
-            document.querySelector('.day.selected')?.classList.remove('selected');
-            event.target.classList.add('selected');
+        const dayEl = event.target.closest('.day');
+        if (!dayEl || !dayEl.dataset || !dayEl.dataset.date) return;
 
-            const selectedDateKey = event.target.dataset.date;
-            const day = event.target.textContent.padStart(2, '0');
+        if (dayEl.classList.contains('bookable') && dayEl.classList.contains('available')) {
+            // Verificar que há serviço selecionado antes de permitir seleção da data
+            if (!servicoSelecionado) {
+                alert('Selecione um serviço antes de escolher a data.');
+                return;
+            }
+
+            document.querySelector('.day.selected')?.classList.remove('selected');
+            dayEl.classList.add('selected');
+
+            const selectedDateKey = dayEl.dataset.date;
+            const day = String(dayEl.querySelector('.day-number').textContent).padStart(2, '0');
             const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 
             // Mostrar data no formato DD/MM/YYYY no input
@@ -242,9 +335,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Atualizar horários disponíveis para a data selecionada
             updateAvailableHours(selectedDateKey);
 
-        } else if (event.target.classList.contains('unavailable')) {
+        } else if (dayEl.classList.contains('unavailable')) {
             alert('Agendamentos não estão disponíveis para este dia.');
-        } else if (event.target.classList.contains('booked')) {
+        } else if (dayEl.classList.contains('booked')) {
             alert('Não há horários livres neste dia. Todos os horários já estão ocupados.');
         }
     });
@@ -252,6 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicialização
     (async () => {
         await fetchAgendamentos();
+        await fetchServicos();
         renderCalendar();
     })();
 });

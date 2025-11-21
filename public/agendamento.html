@@ -7,7 +7,6 @@
     
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/agendamento.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -31,27 +30,28 @@
         <div class="agendamento-container">
             <div class="agendamento-form">
                 <h2>Escolha o melhor horário para você!</h2>
+
+                <!-- Seção de Serviços Disponíveis -->
+                <div class="servicos-disponiveis">
+                    <h3>Nossos Serviços</h3>
+                    <div id="lista-servicos" class="servicos-grid">
+                        <p class="loading-text">Carregando serviços...</p>
+                    </div>
+                </div>
+
                 <form id="agendamento-form">
+                    <!-- Campo hidden para armazenar o ID do serviço selecionado -->
+                    <input type="hidden" id="servico" name="servico" required>
+
                     <div class="form-group">
                         <label for="data">Data</label>
-                        <input type="text" id="data" placeholder="__/__/____">
+                        <input type="text" id="data" placeholder="__/__/____" readonly>
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <div class="form-group">
                         <label for="hora">Horário</label>
                         <select id="hora" name="hora" disabled>
-                            <option value="09:00">09:00 - 11:00</option>
-                            <option value="11:00">11:00 - 13:00</option>
-                            <option value="15:00">15:00 - 17:00</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="servico">Serviço</label>
-                        <select id="servico">
-                            <option value="" disabled selected>Selecione um serviço...</option>
-                            <option value="manutencao">Manutenção em Gel</option>
-                            <option value="alongamento">Alongamento</option>
-                            <option value="esmalte">Esmaltação em Gel</option>
+                            <option value="">Selecione uma data primeiro</option>
                         </select>
                     </div>
                     <button type="submit" class="btn">Solicitar Agendamento</button>
@@ -60,26 +60,55 @@
 
             <div class="calendar-container">
                 <div class="calendar-header">
-                    <button class="nav-btn" id="prev-month-btn">&lt;</button> <h3 id="current-month-year">Setembro 2025</h3> <button class="nav-btn" id="next-month-btn">&gt;</button> </div>
+                    <button class="nav-btn" id="prev-month-btn">&lt;</button>
+                    <h3 id="current-month-year">Setembro 2025</h3>
+                    <button class="nav-btn" id="next-month-btn">&gt;</button>
+                </div>
                 <div class="calendar-grid">
-                    <div class="weekday">Do</div>
-                    <div class="weekday">Se</div>
-                    <div class="weekday">Te</div>
-                    <div class="weekday">Qu</div>
-                    <div class="weekday">Qi</div>
-                    <div class="weekday">Se</div>
-                    <div class="weekday">Sa</div>
-                    </div>
-            </div>
+                    <div class="weekday">Dom</div>
+                    <div class="weekday">Seg</div>
+                    <div class="weekday">Ter</div>
+                    <div class="weekday">Qua</div>
+                    <div class="weekday">Qui</div>
+                    <div class="weekday">Sex</div>
+                    <div class="weekday">Sáb</div>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-logo"><h2>Daiane Pessoa</h2></div>
-        <div class="footer-message"><h3>Obrigado pela visita! Sua beleza merece cuidado especial.</h3></div>
-        <div class="footer-info"><p><strong>Horário de atendimento:</strong> Ter - Sáb | 9h - 18h</p><p><a href="#">Política de privacidade</a></p><p><strong>Contatos:</strong></p><p>Telefone: 48 999999999</p><p>E-mail: daianepessoa@gmail.com</p></div>
-        <div class="footer-social"><p><strong>Siga nas redes:</strong></p><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div>
+    <footer id="contato" class="footer">
+        <div class="footer-logo">
+            <h2>Daiane Pessoa</h2>
+            <p>Beleza e cuidado especial para suas unhas</p>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-info">
+                <h4>Contato</h4>
+                <p><i class="fas fa-clock"></i> <strong>Horário:</strong> Seg - Sex | 9h - 18h</p>
+                <p><i class="fas fa-phone"></i> <strong>Telefone:</strong> (48) 99999-9999</p>
+                <p><i class="fas fa-envelope"></i> <strong>E-mail:</strong> daianepessoa@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Endereço:</strong> Centro, Criciúma - SC</p>
+            </div>
+
+            <div class="footer-message">
+                <h3>Obrigada pela visita! Sua beleza merece cuidado especial.</h3>
+            </div>
+
+            <div class="footer-social">
+                <h4>Siga nas redes</h4>
+                <div class="social-icons">
+                    <a href="#" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="WhatsApp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Daiane Pessoa - Todos os direitos reservados</p>
+        </div>
     </footer>
 
     <script src="js/main.js" defer></script>

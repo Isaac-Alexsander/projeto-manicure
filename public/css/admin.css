@@ -1,10 +1,52 @@
 /* ===================================
-   CSS PÁGINA ADMIN (admin-agendamentos.html)
+   CSS ADMIN AGENDAMENTOS (admin-agendamentos.html)
    =================================== */
 
-/* 1. LAYOUT PRINCIPAL */
 .admin-page {
     padding: 120px 8% 80px;
+    min-height: 100vh;
+    background-color: var(--cor-fundo);
+}
+
+.admin-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-header-actions h1 {
+    font-family: var(--fonte-titulo);
+    font-size: 2rem;
+    color: var(--cor-texto);
+    margin: 0 0 10px 0;
+}
+
+.admin-header-actions p {
+    margin: 0;
+    color: #666;
+}
+
+.btn-dashboard {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--cor-dourado), #f39c12);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(152, 122, 71, 0.3);
+}
+
+.btn-dashboard:hover {
+    background: linear-gradient(135deg, #785a23, var(--cor-dourado));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(152, 122, 71, 0.4);
 }
 
 /* 2. CALENDÁRIO DO ADMIN */
@@ -32,7 +74,7 @@
     padding: 10px 0;
     font-weight: 600;
     border-radius: 50%;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.18s ease-in-out;
     user-select: none;
     position: relative;
     display: flex;
@@ -43,14 +85,15 @@
 .admin-calendar-container .day .day-number {
     position: relative;
     z-index: 2;
+    transition: opacity 0.18s ease;
 }
 
 .admin-calendar-container .day .day-badge {
     position: absolute;
     bottom: -5px;
     right: -5px;
-    background-color: var(--cor-dourado);
-    color: white;
+    background-color: #f1c40f;
+    color: #111;
     font-size: 0.7rem;
     width: 20px;
     height: 20px;
@@ -59,7 +102,6 @@
     justify-content: center;
     align-items: center;
     z-index: 3;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
 .admin-calendar-container .day.unavailable {
@@ -69,13 +111,14 @@
 }
 
 .admin-calendar-container .day.available {
-    background-color: #e8f5e9;
+    background-color: #27ae60;
+    color: #fff;
     cursor: pointer;
 }
 
 .admin-calendar-container .day.fully-booked {
-    background-color: #ffebee;
-    color: #c62828;
+    background-color: #e74c3c;
+    color: #fff;
     cursor: pointer;
 }
 
@@ -89,7 +132,8 @@
     color: var(--cor-branco);
     font-weight: 700;
     transform: scale(1.05);
-    box-shadow: none;
+    box-shadow: 0 0 0 3px rgba(152, 122, 71, 0.3);
+    border-radius: 50%;
 }
 
 .admin-calendar-container .day.selected .day-badge {
@@ -99,9 +143,11 @@
 
 /* 3. LAYOUT DOS DETALHES */
 .admin-details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    display: block;
+    margin-top: 30px;
+}
+
+.admin-requests-section {
     margin-top: 30px;
 }
 
@@ -119,56 +165,454 @@
     font-size: 1.8rem;
     margin-bottom: 20px;
     color: var(--cor-texto);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-#selected-day-info ul,
-.admin-lista ul {
-    padding-left: 20px;
+.admin-availability h2 i,
+.admin-requests h2 i {
+    color: var(--cor-dourado);
+}
+
+#selected-day-info h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 1.5rem;
+    color: var(--cor-dourado);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#selected-day-info h4 {
+    font-size: 1.1rem;
+    color: var(--cor-texto);
+    margin-top: 20px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#selected-day-info h4 i {
+    color: var(--cor-dourado);
+    font-size: 1rem;
+}
+
+#selected-day-info ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-#selected-day-info li,
-.admin-lista li {
-    margin-bottom: 10px;
+#selected-day-info ul li {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border-left: 4px solid #27ae60;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#selected-day-info ul li:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.day-appointments {
+    list-style: none;
+    padding: 0 !important;
 }
 
 .day-appointments li {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
+    padding: 15px !important;
+    margin-bottom: 10px !important;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #3498db;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-/* 4. BOTÕES DE AÇÃO DO ADMIN */
+.day-appointments li:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.day-appointments li .appointment-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--cor-dourado);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.day-appointments li .appointment-details {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.day-appointments li .appointment-service {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.day-appointments li .appointment-client {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.day-appointments li .appointment-contact {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+    font-size: 0.9rem;
+}
+
+.day-appointments li .appointment-contact .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #2980b9;
+}
+
+.day-appointments li .appointment-contact .contact-item i {
+    color: var(--cor-dourado);
+    font-size: 0.85rem;
+}
+
+.day-appointments li em {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-style: normal;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.day-appointments li em.status-pendente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.day-appointments li em.status-confirmado {
+    background: #d4edda;
+    color: #155724;
+}
+
+.day-appointments li em.status-recusado {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.day-appointments li em.status-cancelado {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+#selected-day-info p {
+    color: #666;
+    font-style: italic;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.admin-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.agendamento-item {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #ffc107;
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.agendamento-item:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+}
+
+.agendamento-item.pendente {
+    border-left-color: #ffc107;
+}
+
+.admin-info {
+    margin-bottom: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 15px;
+}
+
+.admin-info p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-info p strong {
+    color: var(--cor-texto);
+    min-width: 70px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+.admin-info p strong i {
+    color: var(--cor-dourado);
+    font-size: 0.9rem;
+    width: 16px;
+}
+
+.admin-info p .info-value {
+    color: #444;
+    font-weight: 500;
+}
+
+.admin-info p .info-value.contact-info {
+    color: #2980b9;
+    font-size: 0.9rem;
+}
+
+.admin-info p .info-value.contact-info:hover {
+    text-decoration: underline;
+}
+
+.payment-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.payment-status.pago {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.payment-status.nao-pago {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.payment-status i {
+    font-size: 1rem;
+}
+
+.payment-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.payment-toggle label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--cor-texto);
+    font-weight: 500;
+}
+
+.payment-toggle input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #28a745;
+}
+
+.admin-lista > p {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    font-style: italic;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 0;
+}
+
+.admin-acoes {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
 .admin-acoes button {
-    padding: 8px 16px;
-    margin-right: 10px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
 }
 
 .admin-acoes .confirmar {
     background-color: #28a745;
     color: white;
+    flex: 1;
 }
 
 .admin-acoes .confirmar:hover {
     background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
 .admin-acoes .recusar {
     background-color: #dc3545;
     color: white;
+    flex: 1;
 }
 
 .admin-acoes .recusar:hover {
     background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
-/* 5. RESPONSIVIDADE */
+.pendencias-badge {
+    display: inline-block;
+    background: #dc3545;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.appointment-payment {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+}
+
+.appointment-payment label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.appointment-payment input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.appointment-payment.payment-paid {
+    background-color: #d4edda;
+    border-left: 4px solid #28a745;
+}
+
+.appointment-payment.payment-paid input[type="checkbox"] {
+    accent-color: #28a745;
+}
+
+.appointment-payment.payment-paid .payment-label {
+    color: #155724;
+}
+
+.appointment-payment.payment-pending {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
+}
+
+.appointment-payment.payment-pending input[type="checkbox"] {
+    accent-color: #dc3545;
+}
+
+.appointment-payment.payment-pending .payment-label {
+    color: #721c24;
+}
+
+.appointment-payment input[type="checkbox"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.appointment-payment label:has(input:disabled) {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.appointment-payment:has(input:disabled) {
+    background-color: #f5f5f5;
+    border-left-color: #999;
+}
+
 @media (max-width: 992px) {
     .admin-details-grid {
         grid-template-columns: 1fr;
+    }
+
+    .admin-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-acoes {
+        flex-direction: column;
+    }
+
+    .admin-acoes button {
+        width: 100%;
     }
 }

@@ -10,10 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (!adminLista || !calendarGrid || !currentMonthYearElement) return;
 
-    // Horários disponíveis por dia
     const ALL_SLOTS = ['09:00', '11:00', '15:00'];
-
-    let agendamentosCache = []; // array de agendamentos do servidor
+    let agendamentosCache = [];
     let currentDate = new Date();
 
     async function ensureAdmin() {
@@ -22,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!res.ok) throw new Error('Falha ao verificar sessão');
             const session = await res.json();
             if (!session.logado || session.role !== 'admin') {
-                // bloquear acesso
                 document.body.innerHTML = '<main class="pagina-container"><h2>Acesso negado</h2><p>Você precisa ser administrador para acessar este painel.</p><p><a href="index.html">Voltar</a></p></main>';
                 throw new Error('Acesso negado');
             }
@@ -52,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function normalizeTime(t) {
         if (!t) return '';
-        // trim e normaliza
         const s = String(t).trim();
         const m = s.match(/(\d{1,2}):(\d{2})/);
         if (m) {
@@ -69,10 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildMapByDate() {
         const map = {};
         agendamentosCache.forEach(a => {
-            // Ignorar agendamentos recusados (libera a vaga)
-            if (typeof a.status === 'string' && a.status.toLowerCase() === 'recusado') return;
-
-            const d = a.data_agendamento; // espera YYYY-MM-DD
+            if (typeof a.status === 'string' && (a.status.toLowerCase() === 'recusado' || a.status.toLowerCase() === 'cancelado')) return;
+            const d = a.data_agendamento;
             var horaNorm = normalizeTime(a.hora_agendamento);
             var item = Object.assign({}, a, { horaNorm: horaNorm });
             if (!map[d]) map[d] = [];
@@ -86,17 +80,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const year = currentDate.getFullYear();
         currentMonthYearElement.textContent = `${currentDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' })}`;
 
-        // Cabeçalhos dos dias
         calendarGrid.innerHTML = '<div class="weekday">Dom</div><div class="weekday">Seg</div><div class="weekday">Ter</div><div class="weekday">Qua</div><div class="weekday">Qui</div><div class="weekday">Sex</div><div class="weekday">Sáb</div>';
 
         const firstDayOfMonth = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-        // Preencher primeiras células vazias
-        for (let i = 0; i < firstDayOfMonth; i++) { calendarGrid.appendChild(document.createElement('div')); }
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            calendarGrid.appendChild(document.createElement('div'));
+        }
 
         const map = buildMapByDate();
-        const today = new Date(); today.setHours(0,0,0,0);
+        const today = new Date();
+        today.setHours(0,0,0,0);
 
         for (let day = 1; day <= daysInMonth; day++) {
             const dayElement = document.createElement('div');
@@ -110,25 +105,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const dayDate = new Date(year, month, day);
             const key = keyForDate(dayDate);
 
-            // Disponibilidade
             const booked = (map[key] || []).map(x => x.horaNorm);
             const freeSlots = ALL_SLOTS.filter(s => !booked.includes(s));
 
-            // title para ajudar visibilidade (hover)
             dayElement.setAttribute('title', freeSlots.length > 0 ? `Horários livres: ${freeSlots.join(', ')}` : 'Sem horários livres');
 
             if (dayDate < today) {
                 dayElement.classList.add('unavailable');
             } else {
-                if (dayDate.getDay() === 0 || dayDate.getDay() === 1) {
-                    // domingo ou segunda não atendemos
+                if (dayDate.getDay() === 0 || dayDate.getDay() === 6) {
                     dayElement.classList.add('unavailable');
                 } else {
                     dayElement.classList.add('admin-bookable');
                     if (freeSlots.length === 0) {
-                        dayElement.classList.add('fully-booked'); // Vermelho
+                        dayElement.classList.add('fully-booked');
                     } else {
-                        dayElement.classList.add('available'); // Verde
+                        dayElement.classList.add('available');
                     }
 
                     const badge = document.createElement('span');
@@ -153,25 +145,55 @@ document.addEventListener('DOMContentLoaded', function() {
         const items = (agendamentosCache || []).filter(a => a.data_agendamento === ymd);
         const bookedByTime = {};
         items.forEach(i => {
+            // Ignorar agendamentos cancelados e recusados ao calcular horários ocupados
+            if (typeof i.status === 'string' && (i.status.toLowerCase() === 'recusado' || i.status.toLowerCase() === 'cancelado')) {
+                return;
+            }
             const h = normalizeTime(i.hora_agendamento);
             bookedByTime[h] = bookedByTime[h] || [];
             bookedByTime[h].push(i);
         });
 
-        let html = `<h3>${formatDateBR(ymd)}</h3>`;
-        html += '<h4>Horários disponíveis</h4>';
+        let html = `<h3><i class="fas fa-calendar-alt"></i> ${formatDateBR(ymd)}</h3>`;
+        html += '<h4><i class="fas fa-check-circle"></i> Horários disponíveis</h4>';
         const free = ALL_SLOTS.filter(s => !Object.keys(bookedByTime).includes(s));
         if (free.length === 0) html += '<p>Nenhum horário livre neste dia.</p>';
-        else html += `<ul>${free.map(s => `<li>${s}</li>`).join('')}</ul>`;
+        else html += `<ul>${free.map(s => `<li><i class="far fa-clock"></i> ${s}</li>`).join('')}</ul>`;
 
-        html += '<h4>Agendamentos</h4>';
+        html += '<h4><i class="fas fa-list-ul"></i> Agendamentos</h4>';
         if (items.length === 0) html += '<p>Não há agendamentos neste dia.</p>';
         else {
             html += '<ul class="day-appointments">';
             items.sort((a,b) => normalizeTime(a.hora_agendamento).localeCompare(normalizeTime(b.hora_agendamento))).forEach(a => {
                 const horaDisplay = normalizeTime(a.hora_agendamento);
-                const servicoInfo = a.servico ? ` — ${a.servico}` : '';
-                html += `<li><strong>${horaDisplay}</strong>${servicoInfo} — ${a.email} — <em>${a.status}</em></li>`;
+                const servicoInfo = a.servico_nome || 'Serviço não especificado';
+                const clienteNome = a.cliente_nome || a.email || 'Cliente';
+                const emailCliente = a.email || '—';
+                const telefoneCliente = a.telefone || '—';
+                const statusClass = `status-${a.status.toLowerCase()}`;
+                const isPago = a.pago == 1 || a.pago === true;
+
+                const statusPermiteEdicao = a.status !== 'cancelado' && a.status !== 'recusado';
+                const checkboxDisabled = !statusPermiteEdicao ? 'disabled' : '';
+
+                html += `<li data-id="${a.id}">
+                    <div class="appointment-time"><i class="far fa-clock"></i> ${horaDisplay}</div>
+                    <div class="appointment-details">
+                        <span class="appointment-service"><i class="fas fa-cut"></i> ${servicoInfo}</span>
+                        <span class="appointment-client"><i class="fas fa-user"></i> ${clienteNome}</span>
+                        <em class="${statusClass}">${a.status}</em>
+                    </div>
+                    <div class="appointment-contact">
+                        <span class="contact-item"><i class="fas fa-envelope"></i> ${emailCliente}</span>
+                        <span class="contact-item"><i class="fas fa-phone"></i> ${telefoneCliente}</span>
+                    </div>
+                    <div class="appointment-payment ${isPago ? 'payment-paid' : 'payment-pending'}">
+                        <label>
+                            <input type="checkbox" class="payment-checkbox-detail" ${isPago ? 'checked' : ''} ${checkboxDisabled}>
+                            <span class="payment-label">${isPago ? 'Pagamento realizado' : 'Pagamento pendente'}</span>
+                        </label>
+                    </div>
+                </li>`;
             });
             html += '</ul>';
         }
@@ -183,50 +205,71 @@ document.addEventListener('DOMContentLoaded', function() {
         const dayEl = e.target.closest('.day');
         if (!dayEl || !dayEl.dataset || !dayEl.dataset.date) return;
         if (dayEl.classList.contains('unavailable')) return;
-        // remover seleção anterior
         document.querySelector('.admin-calendar-container .day.selected')?.classList.remove('selected');
         dayEl.classList.add('selected');
         const date = dayEl.dataset.date;
         showDayDetails(date);
     });
 
-    prevMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
-    nextMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
+    prevMonthBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+    });
 
-    // manter listagem de solicitações (pendentes em destaque)
+    nextMonthBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+    });
+
     async function carregarAgendamentos() {
         try {
             const res = await fetch('../php/listar_agendamentos.php', { cache: 'no-store' });
             if (!res.ok) throw new Error('Falha ao carregar dados');
             const agendamentos = await res.json();
-            // Atualizar cache também
             agendamentosCache = agendamentos;
 
             adminLista.innerHTML = '';
             const pendentes = agendamentos.filter(a => a.status === 'pendente');
+
             if (pendentes.length === 0) {
-                adminLista.innerHTML = '<p>Nenhum agendamento pendente.</p>';
+                adminLista.innerHTML = '<p><i class="fas fa-check-circle"></i> Nenhum agendamento pendente.</p>';
                 return;
             }
+
             pendentes.forEach(ag => {
                 const dataFormatada = new Date(ag.data_agendamento + 'T00:00:00').toLocaleDateString('pt-BR');
                 const horaFormatada = ag.hora_agendamento.substring(0,5);
                 const item = document.createElement('div');
                 item.className = `agendamento-item ${ag.status}`;
                 item.dataset.id = ag.id;
-                const acoesHtml = `<button class="confirmar">Confirmar</button><button class="recusar">Recusar</button>`;
+                const servicoDisplay = ag.servico_nome || '—';
+                const clienteNome = ag.cliente_nome || ag.email;
+                const emailCliente = ag.email || '—';
+                const telefoneCliente = ag.telefone || '—';
+
                 item.innerHTML = `
                     <div class="admin-info">
-                        <p><strong>Data:</strong> ${dataFormatada}</p>
-                        <p><strong>Hora:</strong> ${horaFormatada}</p>
-                        <p><strong>Serviço:</strong> ${ag.servico}</p>
-                        <p><strong>Cliente:</strong> ${ag.email}</p>
+                        <p><strong><i class="fas fa-calendar"></i> Data:</strong> <span class="info-value">${dataFormatada}</span></p>
+                        <p><strong><i class="far fa-clock"></i> Hora:</strong> <span class="info-value">${horaFormatada}</span></p>
+                        <p><strong><i class="fas fa-cut"></i> Serviço:</strong> <span class="info-value">${servicoDisplay}</span></p>
+                        <p><strong><i class="fas fa-user"></i> Cliente:</strong> <span class="info-value">${clienteNome}</span></p>
+                        <p><strong><i class="fas fa-envelope"></i> Email:</strong> <span class="info-value contact-info">${emailCliente}</span></p>
+                        <p><strong><i class="fas fa-phone"></i> Telefone:</strong> <span class="info-value contact-info">${telefoneCliente}</span></p>
                     </div>
-                    <div class="admin-acoes">${acoesHtml}</div>`;
+                    <div class="admin-acoes">
+                        <button class="confirmar"><i class="fas fa-check"></i> Confirmar</button>
+                        <button class="recusar"><i class="fas fa-times"></i> Recusar</button>
+                    </div>`;
                 adminLista.appendChild(item);
             });
 
-            // Re-render calendar para mostrar badges atualizados
+            const requestsTitle = document.querySelector('.admin-requests h2');
+            if (requestsTitle && pendentes.length > 0) {
+                const badge = requestsTitle.querySelector('.pendencias-badge');
+                if (badge) badge.remove();
+                requestsTitle.innerHTML = `<i class="fas fa-clock"></i> Solicitações Pendentes <span class="pendencias-badge">${pendentes.length}</span>`;
+            }
+
             renderCalendar();
 
         } catch (err) {
@@ -251,6 +294,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    async function atualizarPagamento(id, pago) {
+        try {
+            const res = await fetch('../php/atualizar_pagamento.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, pago })
+            });
+            const json = await res.json();
+            if (!res.ok) throw new Error(json.mensagem || 'Erro');
+        } catch (err) {
+            alert(err.message || 'Erro ao atualizar pagamento');
+            console.error(err);
+            return false;
+        }
+        return true;
+    }
+
     adminLista.addEventListener('click', (e) => {
         const btn = e.target.closest('button');
         if (!btn) return;
@@ -261,7 +321,35 @@ document.addEventListener('DOMContentLoaded', function() {
         if (btn.classList.contains('recusar')) atualizarStatus(id, 'recusado');
     });
 
-    // Inicialização
+    selectedDayInfo.addEventListener('change', async (e) => {
+        if (e.target.classList.contains('payment-checkbox-detail')) {
+            const checkbox = e.target;
+            const item = checkbox.closest('li');
+            const id = item.dataset.id;
+            const pago = checkbox.checked;
+
+            const paymentDiv = checkbox.closest('.appointment-payment');
+            const span = checkbox.nextElementSibling;
+
+            const success = await atualizarPagamento(id, pago);
+
+            if (success) {
+                if (pago) {
+                    paymentDiv.classList.remove('payment-pending');
+                    paymentDiv.classList.add('payment-paid');
+                    span.textContent = 'Pagamento realizado';
+                } else {
+                    paymentDiv.classList.remove('payment-paid');
+                    paymentDiv.classList.add('payment-pending');
+                    span.textContent = 'Pagamento pendente';
+                }
+                await fetchAgendamentos();
+            } else {
+                checkbox.checked = !pago;
+            }
+        }
+    });
+
     (async () => {
         try {
             await ensureAdmin();

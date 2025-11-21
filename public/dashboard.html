@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin</title>
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">Daiane Pessoa</a>
+        <nav class="navbar">
+            <a href="admin-agendamentos.html">Agendamentos</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="index.html#contato">Contato</a>
+        </nav>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <main class="dashboard-page">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-chart-line"></i> Dashboard Financeiro</h1>
+            <div class="filter-controls">
+                <select id="periodo-filtro">
+                    <option value="mes-atual">Mês Atual</option>
+                    <option value="mes-anterior">Mês Anterior</option>
+                    <option value="ultimos-3-meses">Últimos 3 Meses</option>
+                    <option value="ano-atual">Ano Atual</option>
+                    <option value="todos" selected>Todos os Períodos</option>
+                </select>
+                <button class="btn-refresh" id="btn-refresh">
+                    <i class="fas fa-sync-alt"></i> Atualizar
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards de Métricas -->
+        <section class="metricas-cards">
+            <div class="card card-receita">
+                <div class="card-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Receita Total</h3>
+                    <p class="valor" id="receita-total">R$ 0,00</p>
+                    <span class="subtexto">Agendamentos confirmados</span>
+                </div>
+            </div>
+
+            <div class="card card-agendamentos">
+                <div class="card-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Agendamentos</h3>
+                    <p class="valor" id="total-agendamentos">0</p>
+                    <span class="subtexto">Total de atendimentos</span>
+                </div>
+            </div>
+
+            <div class="card card-ticket">
+                <div class="card-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Ticket Médio</h3>
+                    <p class="valor" id="ticket-medio">R$ 0,00</p>
+                    <span class="subtexto">Valor médio por serviço</span>
+                </div>
+            </div>
+
+            <div class="card card-clientes">
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Clientes Atendidos</h3>
+                    <p class="valor" id="clientes-atendidos">0</p>
+                    <span class="subtexto">Clientes únicos</span>
+                </div>
+            </div>
+
+            <!-- Novos Cards de Pagamento -->
+            <div class="card card-pagos">
+                <div class="card-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Pagamentos Recebidos</h3>
+                    <p class="valor" id="pagamentos-recebidos">R$ 0,00</p>
+                    <span class="subtexto" id="qtd-pagos">0 agendamentos pagos</span>
+                </div>
+            </div>
+
+            <div class="card card-pendentes">
+                <div class="card-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Pagamentos Pendentes</h3>
+                    <p class="valor" id="pagamentos-pendentes">R$ 0,00</p>
+                    <span class="subtexto" id="qtd-pendentes">0 agendamentos pendentes</span>
+                </div>
+            </div>
+
+            <div class="card card-taxa-pagamento">
+                <div class="card-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Taxa de Pagamento</h3>
+                    <p class="valor" id="taxa-pagamento">0%</p>
+                    <span class="subtexto">Percentual de pagamentos recebidos</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficos e Tabelas -->
+        <section class="dashboard-content">
+            <div class="dashboard-grid">
+                <!-- Serviços Mais Vendidos -->
+                <div class="dashboard-box">
+                    <h2><i class="fas fa-star"></i> Serviços Mais Vendidos</h2>
+                    <div class="table-container">
+                        <table id="tabela-servicos">
+                            <thead>
+                                <tr>
+                                    <th>Serviço</th>
+                                    <th>Quantidade</th>
+                                    <th>Receita</th>
+                                    <th>% Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" class="loading-cell">Carregando dados...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Agendamentos por Status -->
+                <div class="dashboard-box">
+                    <h2><i class="fas fa-chart-pie"></i> Status dos Agendamentos</h2>
+                    <div class="status-container" id="status-container">
+                        <div class="status-item">
+                            <div class="status-bar">
+                                <div class="status-fill status-confirmado" style="width: 0%"></div>
+                            </div>
+                            <div class="status-info">
+                                <span class="status-label">Confirmados</span>
+                                <span class="status-valor">0</span>
+                            </div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-bar">
+                                <div class="status-fill status-pendente" style="width: 0%"></div>
+                            </div>
+                            <div class="status-info">
+                                <span class="status-label">Pendentes</span>
+                                <span class="status-valor">0</span>
+                            </div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-bar">
+                                <div class="status-fill status-recusado" style="width: 0%"></div>
+                            </div>
+                            <div class="status-info">
+                                <span class="status-label">Recusados</span>
+                                <span class="status-valor">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Receita por Dia da Semana -->
+                <div class="dashboard-box full-width">
+                    <h2><i class="fas fa-calendar-week"></i> Semana Atual</h2>
+                    <div class="chart-container" id="chart-dias-semana">
+                        <div class="chart-bars" id="bars-dias-semana"></div>
+                    </div>
+                </div>
+
+                <!-- Últimos Agendamentos -->
+                <div class="dashboard-box full-width">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Agendamentos Não Pagos</h2>
+                    <div class="table-container">
+                        <table id="tabela-nao-pagos">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Hora</th>
+                                    <th>Cliente</th>
+                                    <th>Telefone</th>
+                                    <th>Serviço</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="8" class="loading-cell">Carregando dados...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Últimos Agendamentos -->
+                <div class="dashboard-box full-width">
+                    <h2><i class="fas fa-history"></i> Últimos Agendamentos</h2>
+                    <div class="table-container">
+                        <table id="tabela-ultimos">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Hora</th>
+                                    <th>Cliente</th>
+                                    <th>Serviço</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="loading-cell">Carregando dados...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contato" class="footer">
+        <div class="footer-logo">
+            <h2>Daiane Pessoa</h2>
+            <p>Beleza e cuidado especial para suas unhas</p>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-info">
+                <h4>Contato</h4>
+                <p><i class="fas fa-clock"></i> <strong>Horário:</strong> Seg - Sex | 9h - 18h</p>
+                <p><i class="fas fa-phone"></i> <strong>Telefone:</strong> (48) 99999-9999</p>
+                <p><i class="fas fa-envelope"></i> <strong>E-mail:</strong> daianepessoa@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Endereço:</strong> Centro, Criciúma - SC</p>
+            </div>
+
+            <div class="footer-message">
+                <h3>Obrigada pela visita! Sua beleza merece cuidado especial.</h3>
+            </div>
+
+            <div class="footer-social">
+                <h4>Siga nas redes</h4>
+                <div class="social-icons">
+                    <a href="#" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="WhatsApp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Daiane Pessoa - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
+</body>
+</html>

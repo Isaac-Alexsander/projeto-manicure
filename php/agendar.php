@@ -32,10 +32,17 @@ if (stripos($contentType, 'application/json') !== false) {
 
 $data_str = isset($data['data']) ? $data['data'] : null; // Formato esperado: "DD/MM/YYYY" ou YYYY-MM-DD
 $hora = isset($data['hora']) ? $data['hora'] : null;
+$servico_id = isset($data['servico_id']) ? $data['servico_id'] : null;
 
 if (!$data_str || !$hora) {
     http_response_code(400);
     echo json_encode(['mensagem' => 'Data e hora são obrigatórias.']);
+    exit;
+}
+
+if (!$servico_id || !is_numeric($servico_id)) {
+    http_response_code(400);
+    echo json_encode(['mensagem' => 'Selecione um serviço válido antes de agendar.']);
     exit;
 }
 
@@ -52,13 +59,45 @@ if (strpos($data_str, '/') !== false) {
     $data_sql = $data_str; // espera YYYY-MM-DD
 }
 
+// Validar se a data é de segunda a sexta (dia da semana 1-5)
+$dateObject = new DateTime($data_sql);
+$diaSemana = (int)$dateObject->format('N'); // 1 = Segunda, 7 = Domingo
+if ($diaSemana < 1 || $diaSemana > 5) {
+    http_response_code(400);
+    echo json_encode(['mensagem' => 'Agendamentos são permitidos apenas de segunda a sexta-feira.']);
+    exit;
+}
+
 $usuario_id = $_SESSION['usuario_id'];
-$servico = isset($data['servico']) ? $data['servico'] : null;
 
 try {
-    $sql = "INSERT INTO agendamentos (usuario_id, data_agendamento, hora_agendamento, servico) VALUES (?, ?, ?, ?)";
+    // Verificar se o serviço existe e está ativo
+    $stmt = $pdo->prepare("SELECT id, nome, preco FROM servicos WHERE id = ? AND ativo = TRUE LIMIT 1");
+    $stmt->execute([$servico_id]);
+    $serv = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$serv) {
+        http_response_code(400);
+        echo json_encode(['mensagem' => 'Serviço inválido ou indisponível.']);
+        exit;
+    }
+
+    // Normalizar hora para comparar (apenas HH:MM)
+    $hora_norm = substr($hora, 0, 5);
+
+    // Verificar se já existe agendamento para data+hora (exceto recusado e cancelado)
+    $stmt = $pdo->prepare("SELECT COUNT(*) as cnt FROM agendamentos WHERE data_agendamento = ? AND hora_agendamento = ? AND status NOT IN ('recusado', 'cancelado')");
+    $stmt->execute([$data_sql, $hora_norm]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row && intval($row['cnt']) > 0) {
+        http_response_code(409);
+        echo json_encode(['mensagem' => 'Horário já agendado. Por favor, escolha outro horário.']);
+        exit;
+    }
+
+    // Inserir agendamento com servico_id
+    $sql = "INSERT INTO agendamentos (usuario_id, servico_id, data_agendamento, hora_agendamento) VALUES (?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$usuario_id, $data_sql, $hora, $servico]);
+    $stmt->execute([$usuario_id, $servico_id, $data_sql, $hora_norm]);
 
     http_response_code(201);
     echo json_encode(['mensagem' => 'Agendamento solicitado com sucesso! Aguarde a confirmação.']);

@@ -158,26 +158,151 @@
         font-size: 3.5rem;
     }
 
+    .services-section {
+        padding: 80px 6%;
+    }
+
+    .services-section h2 {
+        font-size: 2.5rem;
+    }
+
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
     }
 
     .about-section {
         flex-direction: column;
         text-align: center;
+        padding: 80px 6%;
+        gap: 40px;
+    }
+
+    .about-content h2 {
+        font-size: 2.5rem;
+    }
+
+    .testimonials-section {
+        padding: 80px 6%;
+    }
+
+    .testimonials-section blockquote {
+        font-size: 2rem;
     }
 }
 
 @media (max-width: 768px) {
+    .hero-section {
+        padding: 0 4%;
+    }
+
     .hero-content h1 {
         font-size: 2.8rem;
     }
 
+    .services-section {
+        padding: 60px 4%;
+    }
+
+    .services-section h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .service-card {
+        padding: 20px;
+    }
+
+    .service-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .about-section {
+        padding: 60px 4%;
+        gap: 30px;
+    }
+
+    .about-content h2 {
+        font-size: 2rem;
+    }
+
+    .about-content p {
+        font-size: 0.95rem;
+    }
+
+    .about-image img {
+        max-width: 300px;
+    }
+
+    .testimonials-section {
+        padding: 60px 4%;
+    }
+
+    .testimonials-section::before {
+        font-size: 10rem;
     }
 
     .testimonials-section blockquote {
+        font-size: 1.6rem;
+    }
+
+    .testimonial-author {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content .btn {
+        padding: 12px 28px;
+        font-size: 1rem;
+    }
+
+    .services-section {
+        padding: 50px 4%;
+    }
+
+    .services-section h2 {
         font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+
+    .about-section {
+        padding: 50px 4%;
+    }
+
+    .about-content h2 {
+        font-size: 1.8rem;
+    }
+
+    .testimonials-section {
+        padding: 50px 4%;
+    }
+
+    .testimonials-section blockquote {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .services-section h2,
+    .about-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .testimonials-section blockquote {
+        font-size: 1.2rem;
     }
 }

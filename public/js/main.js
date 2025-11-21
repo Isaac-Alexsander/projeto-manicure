@@ -1,6 +1,26 @@
 // js/main.js
 
 document.addEventListener('DOMContentLoaded', function() {
+    const menuIcon = document.querySelector('.menu-icon');
+    const navbar = document.querySelector('.navbar');
+
+    // Toggle menu mobile
+    if (menuIcon && navbar) {
+        menuIcon.addEventListener('click', function() {
+            navbar.classList.toggle('active');
+            menuIcon.classList.toggle('active');
+        });
+
+        // Fechar menu ao clicar em um link
+        const navLinks = navbar.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navbar.classList.remove('active');
+                menuIcon.classList.remove('active');
+            });
+        });
+    }
+
     async function atualizarNavegacao() {
         try {
             const res = await fetch('../php/verificar_sessao.php', { cache: 'no-store' });
@@ -27,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 links += `
                     <a href="auth.html">Login</a>
-                    <a href="auth.html">Cadastrar</a>
                 `;
             }
             nav.innerHTML = links;

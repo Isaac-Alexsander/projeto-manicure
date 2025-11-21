@@ -2,11 +2,14 @@
 // php/bd.php
 // Conexão com banco de dados PostgreSQL
 
-$host = 'localhost';
-$db = 'db_projeto_manicure';
-$user = 'postgres';
-$pass = 'postgres';
-$port = '5432';
+// Carregar configurações de arquivo externo
+$config = require __DIR__ . '/config.php';
+
+$host = $config['db']['host'];
+$db = $config['db']['dbname'];
+$user = $config['db']['user'];
+$pass = $config['db']['password'];
+$port = $config['db']['port'];
 
 try {
     $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass, [

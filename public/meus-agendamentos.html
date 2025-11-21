@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Agendamentos - Daiane Pessoa</title>
-    
+
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/meus-agendamentos.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -19,6 +18,8 @@
             <a href="index.html#servicos">Serviços</a>
             <a href="index.html#sobre">Quem sou eu</a>
             <a href="index.html#contato">Contato</a>
+            <a href="meus-agendamentos.html" class="active">Meus Agendamentos</a>
+            <a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Sair</a>
         </nav>
         <div class="menu-icon">
             <span></span>
@@ -27,24 +28,115 @@
         </div>
     </header>
 
-    <main class="pagina-container">
-        <h1>Meus Agendamentos</h1>
-        <p>Abaixo estão suas solicitações de agendamento e seus status.</p>
-        
-        <div class="lista-agendamentos">
-            
-            <!-- Os agendamentos serão inseridos aqui via JavaScript -->
+    <main class="meus-agendamentos-page">
+        <div class="pagina-container">
+            <h1>
+                <i class="fas fa-calendar-check"></i>
+                Meus Agendamentos
+            </h1>
+            <p>Acompanhe todos os seus agendamentos aqui</p>
 
-        </div> </main>
+            <!-- Filtros -->
+            <div class="filtros-container">
+                <button class="filtro-btn active" data-filtro="todos">
+                    <i class="fas fa-list"></i> Todos
+                </button>
+                <button class="filtro-btn" data-filtro="pendente">
+                    <i class="fas fa-clock"></i> Pendentes
+                </button>
+                <button class="filtro-btn" data-filtro="confirmado">
+                    <i class="fas fa-check-circle"></i> Confirmados
+                </button>
+                <button class="filtro-btn" data-filtro="cancelado">
+                    <i class="fas fa-times-circle"></i> Cancelados
+                </button>
+                <button class="filtro-btn" data-filtro="concluido">
+                    <i class="fas fa-check-double"></i> Concluídos
+                </button>
+            </div>
 
-    <footer class="footer">
-        <div class="footer-logo"><h2>Daiane Pessoa</h2></div>
-        <div class="footer-message"><h3>Obrigado pela visita! Sua beleza merece cuidado especial.</h3></div>
-        <div class="footer-info"><p><strong>Horário de atendimento:</strong> Ter - Sáb | 9h - 18h</p><p><a href="#">Política de privacidade</a></p><p><strong>Contatos:</strong></p><p>Telefone: 48 999999999</p><p>E-mail: daianepessoa@gmail.com</p></div>
-        <div class="footer-social"><p><strong>Siga nas redes:</strong></p><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div>
+            <!-- Lista de Agendamentos -->
+            <div id="agendamentos-container" class="agendamentos-lista">
+                <div class="loading-container">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Carregando seus agendamentos...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Confirmação de Cancelamento -->
+    <div id="modal-cancelar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Confirmar Cancelamento</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja cancelar este agendamento?</p>
+                <p class="aviso-cancelamento">
+                    <i class="fas fa-info-circle"></i>
+                    Esta ação não poderá ser desfeita.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secundario" id="btn-nao-cancelar">Não, manter agendamento</button>
+                <button class="btn-perigo" id="btn-confirmar-cancelar">Sim, cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes do Agendamento -->
+    <div id="modal-detalhes" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Detalhes do Agendamento</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="detalhes-conteudo">
+                <!-- Conteúdo será preenchido dinamicamente -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secundario modal-close">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <footer id="contato" class="footer">
+        <div class="footer-logo">
+            <h2>Daiane Pessoa</h2>
+            <p>Beleza e cuidado especial para suas unhas</p>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-info">
+                <h4>Contato</h4>
+                <p><i class="fas fa-clock"></i> <strong>Horário:</strong> Seg - Sex | 9h - 18h</p>
+                <p><i class="fas fa-phone"></i> <strong>Telefone:</strong> (48) 99999-9999</p>
+                <p><i class="fas fa-envelope"></i> <strong>E-mail:</strong> daianepessoa@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Endereço:</strong> Centro, Criciúma - SC</p>
+            </div>
+
+            <div class="footer-message">
+                <h3>Obrigada pela visita! Sua beleza merece cuidado especial.</h3>
+            </div>
+
+            <div class="footer-social">
+                <h4>Siga nas redes</h4>
+                <div class="social-icons">
+                    <a href="#" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="WhatsApp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Daiane Pessoa - Todos os direitos reservados</p>
+        </div>
     </footer>
 
     <script src="js/main.js" defer></script>
-    <script src="js/meus-agendamentos.js" defer></script>
+    <script src="js/meus-agendamentos.js"></script>
 </body>
 </html>

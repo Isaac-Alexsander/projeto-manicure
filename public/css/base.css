@@ -117,41 +117,162 @@ body {
 /* 7. FOOTER (USADO EM ALGUMAS PÁGINAS) */
 .footer {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-    "logo mensagem"
-    "info social";
-    gap: 30px 60px;
-    padding: 80px 8%;
-    background-color: var(--cor-dourado);
-    color: var(--cor-texto);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    padding: 60px 8% 30px;
+    background: linear-gradient(135deg, #BFA16E 0%, #a88a5e 100%);
+    color: var(--cor-branco);
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--cor-branco), transparent);
+    opacity: 0.3;
+}
+
+.footer > div {
+    z-index: 1;
+}
+
+.footer-logo {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .footer-logo h2 {
     font-family: var(--fonte-titulo);
-    font-size: 2.5rem;
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 2px;
+}
+
+.footer-logo p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-style: italic;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    grid-column: 1 / -1;
+    margin-top: 30px;
+}
+
+.footer-info, .footer-social, .footer-message {
+    padding: 0 20px;
+}
+
+.footer-info h4, .footer-social h4 {
+    font-family: var(--fonte-titulo);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--cor-branco);
+}
+
+.footer-info p {
+    margin-bottom: 12px;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.footer-info a {
+    color: var(--cor-branco);
+    text-decoration: underline;
+    transition: opacity 0.3s ease;
+}
+
+.footer-info a:hover {
+    opacity: 0.7;
+}
+
+.footer-info i {
+    margin-right: 10px;
+    width: 20px;
+    display: inline-block;
+}
+
+.footer-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .footer-message h3 {
     font-family: var(--fonte-titulo);
-    font-size: 2rem;
-    line-height: 1.4;
+    font-size: 1.8rem;
+    line-height: 1.6;
+    text-align: center;
+    font-style: italic;
+    color: var(--cor-branco);
 }
 
-.footer-info p, .footer-social p {
-    margin-bottom: 10px;
-    line-height: 1.6;
+.footer-social {
+    text-align: center;
+}
+
+.footer-social h4 {
+    margin-bottom: 20px;
+}
+
+.footer-social .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.footer-social a:hover {
+    background-color: var(--cor-branco);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .footer-social a i {
-    font-size: 2rem;
-    color: var(--cor-texto);
-    margin-right: 15px;
+    font-size: 1.5rem;
+    color: var(--cor-branco);
     transition: color 0.3s ease;
 }
 
-.footer-social a i:hover {
-    color: var(--cor-branco);
+.footer-social a:hover i {
+    color: var(--cor-dourado);
+}
+
+.footer-bottom {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.footer-bottom p {
+    margin: 5px 0;
 }
 
 /* 8. RESPONSIVIDADE GLOBAL */
@@ -161,31 +282,38 @@ body {
     }
 
     .footer {
+        padding: 40px 5% 20px;
+    }
+
+    .footer-logo h2 {
+        font-size: 2.5rem;
+    }
+
+    .footer-content {
         grid-template-columns: 1fr;
-        grid-template-areas:
-            "logo"
-            "mensagem"
-            "info"
-            "social";
+        gap: 30px;
         text-align: center;
+    }
+
+    .footer-info, .footer-social, .footer-message {
+        padding: 0;
+    }
+
+    .footer-message h3 {
+        font-size: 1.5rem;
     }
 }
 
-@media (max-width: 768px) {
-    .navbar {
-        display: none;
+@media (max-width: 576px) {
+    .footer-logo h2 {
+        font-size: 2rem;
     }
 
-    .menu-icon {
-        display: flex;
-        flex-direction: column;
-        cursor: pointer;
+    .footer-message h3 {
+        font-size: 1.3rem;
     }
 
-    .menu-icon span {
-        width: 25px;
-        height: 3px;
-        background-color: var(--cor-texto);
-        margin: 4px 0;
+    .footer-info h4, .footer-social h4 {
+        font-size: 1.3rem;
     }
 }
